@@ -97,5 +97,22 @@ If the image is not food, return food_name "Not food" with health_score 0 and a 
       if (!match) throw new Error("AI returned an unparseable response.");
       parsed = JSON.parse(match[0]);
     }
-    return parsed;
+    const str = (v: unknown, d = "") => (typeof v === "string" ? v : d);
+    const num = (v: unknown, d = 0) => (typeof v === "number" && isFinite(v) ? v : d);
+    const out: ScanOutput = {
+      food_name: str(parsed.food_name, "Unknown"),
+      confidence: str(parsed.confidence, "medium"),
+      calories_kcal: num(parsed.calories_kcal),
+      sugar_g: num(parsed.sugar_g),
+      carbs_g: num(parsed.carbs_g),
+      protein_g: num(parsed.protein_g),
+      fiber_g: num(parsed.fiber_g),
+      salt_level: str(parsed.salt_level, "medium"),
+      sugar_cubes: num(parsed.sugar_cubes),
+      carb_impact: str(parsed.carb_impact, "medium"),
+      health_score: num(parsed.health_score),
+      recommendation: str(parsed.recommendation, ""),
+      notes: str(parsed.notes, ""),
+    };
+    return out;
   });
