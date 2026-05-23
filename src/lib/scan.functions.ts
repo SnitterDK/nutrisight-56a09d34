@@ -2,6 +2,22 @@ import { createServerFn } from "@tanstack/react-start";
 
 type ScanInput = { imageDataUrl: string; goal: string };
 
+export type ScanOutput = {
+  food_name: string;
+  confidence: string;
+  calories_kcal: number;
+  sugar_g: number;
+  carbs_g: number;
+  protein_g: number;
+  fiber_g: number;
+  salt_level: string;
+  sugar_cubes: number;
+  carb_impact: string;
+  health_score: number;
+  recommendation: string;
+  notes: string;
+};
+
 export const analyzeFood = createServerFn({ method: "POST" })
   .inputValidator((data: ScanInput) => {
     if (!data || typeof data.imageDataUrl !== "string" || !data.imageDataUrl.startsWith("data:image/")) {
