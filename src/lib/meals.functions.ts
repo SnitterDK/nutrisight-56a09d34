@@ -22,9 +22,10 @@ export const saveMeal = createServerFn({ method: "POST" })
   .inputValidator((input) => mealSchema.parse(input))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    const insertRow = { ...data, user_id: userId } as never;
     const { data: row, error } = await supabase
       .from("meals")
-      .insert({ ...data, user_id: userId })
+      .insert(insertRow)
       .select()
       .single();
     if (error) throw new Error(error.message);
