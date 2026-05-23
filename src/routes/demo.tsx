@@ -5,6 +5,7 @@ import {
   Coffee, ScanText, Camera, Sparkles, Check, ArrowRight, Trophy,
 } from "lucide-react";
 import { Section } from "@/components/Section";
+import { LiveScanner } from "@/components/LiveScanner";
 
 export const Route = createFileRoute("/demo")({
   head: () => ({
@@ -76,6 +77,11 @@ function DemoPage() {
             );
           })}
         </div>
+      </Section>
+
+      {/* LIVE SCANNER */}
+      <Section eyebrow="Live scan" title="Scan real food right now" subtitle="Snap a photo with your camera or upload an image — NutriSight will analyze it with AI in seconds, personalized to the goal you picked above.">
+        <LiveScanner goalLabel={GOALS.find((g) => g.id === goal)?.label ?? "Healthier choices overall"} />
       </Section>
 
       {/* STEP B */}
