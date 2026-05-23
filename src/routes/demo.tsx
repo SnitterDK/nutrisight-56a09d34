@@ -79,6 +79,11 @@ function DemoPage() {
         </div>
       </Section>
 
+      {/* LIVE SCANNER */}
+      <Section eyebrow="Live scan" title="Scan real food right now" subtitle="Snap a photo with your camera or upload an image — NutriSight will analyze it with AI in seconds, personalized to the goal you picked above.">
+        <LiveScanner goalLabel={GOALS.find((g) => g.id === goal)?.label ?? "Healthier choices overall"} />
+      </Section>
+
       {/* STEP B */}
       <Section eyebrow="Step B" title="Choose a scenario">
         <div className="grid gap-4 md:grid-cols-3">
