@@ -1,7 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Camera, Upload, Loader2, Sparkles, RefreshCw, AlertCircle } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { Camera, Upload, Loader2, Sparkles, RefreshCw, AlertCircle, X, Check, Trophy } from "lucide-react";
 import { analyzeFood } from "@/lib/scan.functions";
+import { saveMeal } from "@/lib/meals.functions";
+import { useAuth } from "@/hooks/useAuth";
 
 type ScanResult = {
   food_name?: string;
@@ -19,19 +22,80 @@ type ScanResult = {
   notes?: string;
 };
 
-export function LiveScanner({ goalLabel }: { goalLabel: string }) {
+export function LiveScanner({ goalLabel, autoOpen = false, onClose }: { goalLabel: string; autoOpen?: boolean; onClose?: () => void }) {
   const analyze = useServerFn(analyzeFood);
+  const save = useServerFn(saveMeal);
+  const { user } = useAuth();
+
+  const videoRef = useRef<HTMLVideoElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const cameraRef = useRef<HTMLInputElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+
+  const [cameraActive, setCameraActive] = useState(false);
+  const [cameraError, setCameraError] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ScanResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    if (autoOpen) void startCamera();
+    return () => stopCamera();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoOpen]);
+
+  async function startCamera() {
+    setCameraError(null);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 1280 } },
+        audio: false,
+      });
+      streamRef.current = stream;
+      setCameraActive(true);
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        await videoRef.current.play().catch(() => {});
+      }
+    } catch (e) {
+      setCameraError(e instanceof Error ? e.message : "Camera unavailable. You can upload an image instead.");
+    }
+  }
+
+  function stopCamera() {
+    streamRef.current?.getTracks().forEach((t) => t.stop());
+    streamRef.current = null;
+    setCameraActive(false);
+  }
+
+  async function captureFromVideo() {
+    const v = videoRef.current;
+    if (!v || !v.videoWidth) return;
+    const max = 1024;
+    const scale = Math.min(1, max / Math.max(v.videoWidth, v.videoHeight));
+    const w = Math.round(v.videoWidth * scale);
+    const h = Math.round(v.videoHeight * scale);
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.drawImage(v, 0, 0, w, h);
+    const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+    stopCamera();
+    await runAnalysis(dataUrl);
+  }
 
   async function handleFile(file: File) {
+    const dataUrl = await downscaleToDataUrl(file, 1024);
+    await runAnalysis(dataUrl);
+  }
+
+  async function runAnalysis(dataUrl: string) {
     setError(null);
     setResult(null);
-    const dataUrl = await downscaleToDataUrl(file, 1024);
+    setSaved(false);
     setImageUrl(dataUrl);
     setLoading(true);
     try {
@@ -44,66 +108,109 @@ export function LiveScanner({ goalLabel }: { goalLabel: string }) {
     }
   }
 
+  async function handleSave() {
+    if (!result || !user) return;
+    try {
+      await save({
+        data: {
+          food_name: result.food_name || "Unknown",
+          calories_kcal: result.calories_kcal ?? 0,
+          sugar_g: result.sugar_g ?? 0,
+          carbs_g: result.carbs_g ?? 0,
+          protein_g: result.protein_g ?? 0,
+          fiber_g: result.fiber_g ?? 0,
+          salt_level: result.salt_level,
+          health_score: typeof result.health_score === "number" ? Math.round(result.health_score) : undefined,
+          recommendation: result.recommendation,
+          goal: goalLabel,
+        },
+      });
+      setSaved(true);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Could not save meal");
+    }
+  }
+
   function reset() {
     setImageUrl(null);
     setResult(null);
     setError(null);
+    setSaved(false);
     if (fileRef.current) fileRef.current.value = "";
-    if (cameraRef.current) cameraRef.current.value = "";
   }
 
   return (
-    <div className="rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/5 via-card to-brand-blue/5 p-6 md:p-8">
+    <div className="rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/5 via-card to-brand-blue/5 p-5 md:p-7">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-primary">Live AI scanner · Beta</p>
-          <h3 className="mt-1 text-2xl font-bold">Scan real food with your camera</h3>
+          <p className="text-xs font-semibold uppercase tracking-wider text-primary">Live AI scanner</p>
+          <h3 className="mt-1 text-xl font-bold md:text-2xl">Point the camera at any food</h3>
           <p className="mt-1 text-sm text-muted-foreground">
-            Optimizing for: <span className="font-semibold text-foreground">{goalLabel}</span>
+            Goal: <span className="font-semibold text-foreground">{goalLabel}</span>
           </p>
         </div>
-        {(imageUrl || result || error) && (
-          <button onClick={reset} className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-muted">
-            <RefreshCw className="h-3.5 w-3.5" /> Scan another
-          </button>
-        )}
+        <div className="flex items-center gap-2">
+          {(imageUrl || result || error) && (
+            <button onClick={reset} className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium hover:bg-muted">
+              <RefreshCw className="h-3.5 w-3.5" /> Scan again
+            </button>
+          )}
+          {onClose && (
+            <button onClick={() => { stopCamera(); onClose(); }} className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card hover:bg-muted" title="Close">
+              <X className="h-4 w-4" />
+            </button>
+          )}
+        </div>
       </div>
 
-      <div className="mt-6 grid gap-5 md:grid-cols-2">
-        {/* Image side */}
-        <div className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-muted">
-          {imageUrl ? (
-            <img src={imageUrl} alt="Scanned food" className="h-full w-full object-cover" />
-          ) : (
-            <div className="flex h-full w-full flex-col items-center justify-center gap-4 p-6 text-center">
+      <div className="mt-5 grid gap-5 md:grid-cols-2">
+        {/* Camera / image */}
+        <div className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-black">
+          {/* Video viewfinder */}
+          {cameraActive && !imageUrl && (
+            <>
+              <video ref={videoRef} playsInline muted className="h-full w-full object-cover" />
+              {/* viewfinder reticle */}
+              <div className="pointer-events-none absolute inset-6 rounded-2xl border-2 border-white/70 shadow-[0_0_0_9999px_rgba(0,0,0,0.25)]" />
+              <div className="absolute inset-x-0 bottom-4 flex justify-center">
+                <button
+                  onClick={captureFromVideo}
+                  className="group inline-flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-2xl ring-4 ring-white/30 transition active:scale-95"
+                  aria-label="Capture"
+                >
+                  <span className="h-12 w-12 rounded-full bg-primary transition group-active:bg-primary/80" />
+                </button>
+              </div>
+              <div className="absolute left-4 top-4 rounded-full bg-black/60 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
+                <span className="mr-1.5 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-success" />
+                Live
+              </div>
+            </>
+          )}
+
+          {/* Captured image preview */}
+          {imageUrl && <img src={imageUrl} alt="Scanned food" className="h-full w-full object-cover" />}
+
+          {/* Idle state */}
+          {!cameraActive && !imageUrl && (
+            <div className="flex h-full w-full flex-col items-center justify-center gap-4 bg-muted p-6 text-center">
               <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/15 text-primary">
                 <Camera className="h-7 w-7" />
               </span>
               <p className="text-sm text-muted-foreground">
-                Snap a photo of any food, meal, menu or café counter.
+                Start the live camera and tap to scan, or upload a photo.
               </p>
+              {cameraError && (
+                <p className="text-xs text-destructive">{cameraError}</p>
+              )}
               <div className="flex flex-wrap justify-center gap-2">
-                <button
-                  onClick={() => cameraRef.current?.click()}
-                  className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow"
-                >
-                  <Camera className="h-4 w-4" /> Open camera
+                <button onClick={startCamera} className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow">
+                  <Camera className="h-4 w-4" /> Start live camera
                 </button>
-                <button
-                  onClick={() => fileRef.current?.click()}
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-2.5 text-sm font-semibold hover:bg-muted"
-                >
+                <button onClick={() => fileRef.current?.click()} className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-2.5 text-sm font-semibold hover:bg-muted">
                   <Upload className="h-4 w-4" /> Upload image
                 </button>
               </div>
-              <input
-                ref={cameraRef}
-                type="file"
-                accept="image/*"
-                capture="environment"
-                className="hidden"
-                onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
-              />
               <input
                 ref={fileRef}
                 type="file"
@@ -113,20 +220,21 @@ export function LiveScanner({ goalLabel }: { goalLabel: string }) {
               />
             </div>
           )}
+
           {loading && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-background/80 backdrop-blur">
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-background/85 backdrop-blur">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
               <p className="text-sm font-medium">Analyzing with AI…</p>
             </div>
           )}
         </div>
 
-        {/* Result side */}
+        {/* Result */}
         <div className="rounded-2xl border border-border bg-card p-5">
           {!result && !error && !loading && (
             <div className="flex h-full flex-col items-center justify-center text-center text-sm text-muted-foreground">
               <Sparkles className="mb-3 h-6 w-6 text-primary" />
-              Your personalized nutrition estimate and recommendation will appear here.
+              Your personalized nutrition estimate will appear here.
             </div>
           )}
 
@@ -140,7 +248,24 @@ export function LiveScanner({ goalLabel }: { goalLabel: string }) {
             </div>
           )}
 
-          {result && <ScanResultView result={result} />}
+          {result && (
+            <div className="space-y-4">
+              <ScanResultView result={result} />
+              {user ? (
+                <button
+                  onClick={handleSave}
+                  disabled={saved}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow disabled:opacity-60"
+                >
+                  {saved ? <><Check className="h-4 w-4" /> Saved to today (+5 XP)</> : <><Trophy className="h-4 w-4" /> Save to today's log</>}
+                </button>
+              ) : (
+                <Link to="/auth" className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-primary/30 bg-primary/10 px-4 py-3 text-sm font-semibold text-primary">
+                  Sign in to save meals & earn XP
+                </Link>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -197,13 +322,6 @@ function ScanResultView({ result }: { result: ScanResult }) {
         </div>
       )}
 
-      {result.carb_impact && (
-        <div className="rounded-xl bg-muted px-3 py-2 text-sm">
-          <span className="text-muted-foreground">Carb impact:</span>{" "}
-          <span className="font-semibold">{cap(result.carb_impact)}</span>
-        </div>
-      )}
-
       {result.recommendation && (
         <div className="rounded-xl border border-primary/30 bg-primary/10 p-4">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary">
@@ -212,8 +330,6 @@ function ScanResultView({ result }: { result: ScanResult }) {
           <p className="mt-1 text-sm font-medium leading-snug">{result.recommendation}</p>
         </div>
       )}
-
-      {result.notes && <p className="text-xs text-muted-foreground">{result.notes}</p>}
     </div>
   );
 }
