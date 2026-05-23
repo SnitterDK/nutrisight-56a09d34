@@ -5,6 +5,7 @@ import {
   Coffee, ScanText, Camera, Sparkles, Check, ArrowRight, Trophy,
 } from "lucide-react";
 import { Section } from "@/components/Section";
+import { LiveScanner } from "@/components/LiveScanner";
 
 export const Route = createFileRoute("/demo")({
   head: () => ({
