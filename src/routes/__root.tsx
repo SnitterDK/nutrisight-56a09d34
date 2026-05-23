@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider, useQueryClient } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
@@ -7,12 +7,10 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { supabase } from "@/integrations/supabase/client";
 
 function NotFoundComponent() {
   return (
@@ -59,9 +57,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "NutriSight — Understand food before you eat it" },
       { name: "description", content: "NutriSight uses AI vision, personal goals and meal memory to help people choose healthier food in real time — from photos, menus and future AI glasses." },
       { property: "og:title", content: "NutriSight — Understand food before you eat it" },
-      { property: "og:description", content: "Real-time AI nutrition assistant for phones and future AI glasses." },
+      { property: "og:description", content: "NutriSight uses AI vision, personal goals and meal memory to help people choose healthier food in real time — from photos, menus and future AI glasses." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "NutriSight — Understand food before you eat it" },
+      { name: "twitter:description", content: "NutriSight uses AI vision, personal goals and meal memory to help people choose healthier food in real time — from photos, menus and future AI glasses." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/6333aa7c-79b3-49de-a7bc-d58d06390be6" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/6333aa7c-79b3-49de-a7bc-d58d06390be6" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -89,7 +91,6 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthInvalidator />
       <div className="flex min-h-screen flex-col">
         <SiteHeader />
         <main className="flex-1"><Outlet /></main>
@@ -97,17 +98,4 @@ function RootComponent() {
       </div>
     </QueryClientProvider>
   );
-}
-
-function AuthInvalidator() {
-  const router = useRouter();
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
-      router.invalidate();
-      queryClient.invalidateQueries();
-    });
-    return () => subscription.unsubscribe();
-  }, [router, queryClient]);
-  return null;
 }
