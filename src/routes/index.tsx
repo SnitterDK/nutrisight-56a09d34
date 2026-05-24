@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { Section } from "@/components/Section";
 import { LiveScanner } from "@/components/LiveScanner";
+import { NutritionEducation } from "@/components/NutritionEducation";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -108,6 +109,9 @@ function Home() {
           ))}
         </div>
       </Section>
+
+      {/* EDUCATION: Visual nutrition, glucose impact, food comparison */}
+      <NutritionEducation />
 
       {/* HOW IT WORKS */}
       <Section eyebrow="The solution" title="Camera → goal → memory → recommendation.">
