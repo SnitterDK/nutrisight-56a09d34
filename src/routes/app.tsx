@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import {
   Scale, CandyOff, Activity, Beef, Wheat, Droplets, Flame, Salad, Sparkles, Check,
-  Trophy, Flame as Streak, TrendingUp,
+  TrendingUp,
 } from "lucide-react";
 import { Section } from "@/components/Section";
 import { LiveScanner } from "@/components/LiveScanner";
