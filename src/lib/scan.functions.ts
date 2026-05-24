@@ -73,7 +73,7 @@ If the image is not relevant (not food, not a menu, not a recipe), return food_n
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: data.mode === "recipe" || data.mode === "menu" ? "google/gemini-2.5-pro" : "google/gemini-2.5-flash",
         messages: [
           { role: "system", content: systemPrompt },
           {
