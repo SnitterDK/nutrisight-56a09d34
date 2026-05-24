@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { Section } from "@/components/Section";
 import { LiveScanner } from "@/components/LiveScanner";
+import { NutritionEducation } from "@/components/NutritionEducation";
 
 export const Route = createFileRoute("/")({
   head: () => ({
