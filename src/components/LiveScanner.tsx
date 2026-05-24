@@ -46,6 +46,19 @@ export function LiveScanner({ goalLabel, autoOpen = false, onClose }: { goalLabe
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoOpen]);
 
+  // When the user switches focus goal (or scan mode) AFTER a scan,
+  // automatically re-analyze the same image so the conclusion reflects
+  // the new goal. Skips while loading or if no image is captured yet.
+  const lastEvalRef = useRef<string>("");
+  useEffect(() => {
+    if (!imageUrl || loading) return;
+    const key = `${goalLabel}::${mode}`;
+    if (lastEvalRef.current === key) return;
+    lastEvalRef.current = key;
+    void runAnalysis(imageUrl);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [goalLabel, mode]);
+
   // Attach stream once the <video> is mounted (avoids race where srcObject
   // is set before the element exists in the DOM).
   useEffect(() => {
