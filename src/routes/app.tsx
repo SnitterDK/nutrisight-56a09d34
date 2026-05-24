@@ -80,24 +80,11 @@ function AppPage() {
 
   return (
     <>
-      {/* Top user bar (when signed in) */}
-      {user && profileQ.data && (
-        <section className="container-page pt-6">
-          <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card p-4">
-            <div>
-              <p className="text-xs uppercase tracking-wider text-muted-foreground">Welcome back</p>
-              <p className="text-lg font-bold">{profileQ.data.display_name ?? "you"}</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Badge icon={Trophy} label={`${profileQ.data.xp} XP`} tone="primary" />
-              <Badge icon={Streak} label={`${profileQ.data.streak_days}-day streak`} tone="warning" />
-              <Link to="/profile" className="rounded-full border border-border bg-background px-3 py-1.5 text-xs font-semibold hover:bg-muted">
-                Edit goals
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Game dashboard — level, quests, achievements */}
+      <Section eyebrow="Your game" title="Level up by eating smarter" subtitle="Every scan, every lesson, every healthy choice earns XP. Build streaks, unlock ranks, smash daily quests.">
+        <GameDashboard profile={profileQ.data ?? null} todayMeals={todayQ.data ?? []} />
+      </Section>
+
 
       {/* Scanner */}
       <Section eyebrow="Live scan" title="Scan food right now" subtitle="Tap to capture. AI analyzes it against your goal in seconds.">
