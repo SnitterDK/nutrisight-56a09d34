@@ -198,7 +198,7 @@ export function LiveScanner({ goalLabel, autoOpen = false, onClose }: { goalLabe
           {/* Video viewfinder */}
           {cameraActive && !imageUrl && (
             <>
-              <video ref={videoRef} playsInline muted className="h-full w-full object-cover" />
+              <video ref={videoRef} autoPlay playsInline muted className="h-full w-full object-cover" />
               {/* viewfinder reticle */}
               <div className="pointer-events-none absolute inset-6 rounded-2xl border-2 border-white/70 shadow-[0_0_0_9999px_rgba(0,0,0,0.25)]" />
               <div className="absolute inset-x-0 bottom-4 flex justify-center">
