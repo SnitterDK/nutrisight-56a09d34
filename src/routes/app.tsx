@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { Section } from "@/components/Section";
 import { LiveScanner } from "@/components/LiveScanner";
+import { GameDashboard } from "@/components/GameDashboard";
 import { useAuth } from "@/hooks/useAuth";
 import { getMyProfile } from "@/lib/profile.functions";
 import { getTodayMeals } from "@/lib/meals.functions";
