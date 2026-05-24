@@ -163,8 +163,29 @@ export function LiveScanner({ goalLabel, autoOpen = false, onClose }: { goalLabe
           )}
         </div>
       </div>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {([
+          { id: "food", label: "Mad", icon: Utensils, hint: "Foto af måltid" },
+          { id: "menu", label: "Menukort", icon: ScrollText, hint: "Vælger bedste ret" },
+          { id: "recipe", label: "Opskrift", icon: ClipboardList, hint: "Læser eksakte gram" },
+        ] as const).map((m) => {
+          const Icon = m.icon;
+          const active = mode === m.id;
+          return (
+            <button
+              key={m.id}
+              onClick={() => setMode(m.id)}
+              className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${active ? "border-primary bg-primary text-primary-foreground shadow" : "border-border bg-card text-foreground hover:bg-muted"}`}
+              title={m.hint}
+            >
+              <Icon className="h-3.5 w-3.5" /> {m.label}
+            </button>
+          );
+        })}
+      </div>
 
       <div className="mt-5 grid gap-5 md:grid-cols-2">
+
         {/* Camera / image */}
         <div className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-black">
           {/* Video viewfinder */}
