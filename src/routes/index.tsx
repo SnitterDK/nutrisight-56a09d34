@@ -110,6 +110,9 @@ function Home() {
         </div>
       </Section>
 
+      {/* EDUCATION: Visual nutrition, glucose impact, food comparison */}
+      <NutritionEducation />
+
       {/* HOW IT WORKS */}
       <Section eyebrow="The solution" title="Camera → goal → memory → recommendation.">
         <div className="grid gap-4 md:grid-cols-4">
