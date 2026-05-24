@@ -38,6 +38,7 @@ export function LiveScanner({ goalLabel, autoOpen = false, onClose }: { goalLabe
   const [result, setResult] = useState<ScanResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+  const [mode, setMode] = useState<ScanMode>("food");
 
   useEffect(() => {
     if (autoOpen) void startCamera();
