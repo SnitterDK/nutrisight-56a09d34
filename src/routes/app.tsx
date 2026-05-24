@@ -4,10 +4,11 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import {
   Scale, CandyOff, Activity, Beef, Wheat, Droplets, Flame, Salad, Sparkles, Check,
-  Trophy, Flame as Streak, TrendingUp,
+  TrendingUp,
 } from "lucide-react";
 import { Section } from "@/components/Section";
 import { LiveScanner } from "@/components/LiveScanner";
+import { GameDashboard } from "@/components/GameDashboard";
 import { useAuth } from "@/hooks/useAuth";
 import { getMyProfile } from "@/lib/profile.functions";
 import { getTodayMeals } from "@/lib/meals.functions";
@@ -79,24 +80,11 @@ function AppPage() {
 
   return (
     <>
-      {/* Top user bar (when signed in) */}
-      {user && profileQ.data && (
-        <section className="container-page pt-6">
-          <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card p-4">
-            <div>
-              <p className="text-xs uppercase tracking-wider text-muted-foreground">Welcome back</p>
-              <p className="text-lg font-bold">{profileQ.data.display_name ?? "you"}</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Badge icon={Trophy} label={`${profileQ.data.xp} XP`} tone="primary" />
-              <Badge icon={Streak} label={`${profileQ.data.streak_days}-day streak`} tone="warning" />
-              <Link to="/profile" className="rounded-full border border-border bg-background px-3 py-1.5 text-xs font-semibold hover:bg-muted">
-                Edit goals
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Game dashboard — level, quests, achievements */}
+      <Section eyebrow="Your game" title="Level up by eating smarter" subtitle="Every scan, every lesson, every healthy choice earns XP. Build streaks, unlock ranks, smash daily quests.">
+        <GameDashboard profile={profileQ.data ?? null} todayMeals={todayQ.data ?? []} />
+      </Section>
+
 
       {/* Scanner */}
       <Section eyebrow="Live scan" title="Scan food right now" subtitle="Tap to capture. AI analyzes it against your goal in seconds.">
@@ -182,14 +170,6 @@ function AppPage() {
   );
 }
 
-function Badge({ icon: Icon, label, tone }: { icon: React.ComponentType<{ className?: string }>; label: string; tone: "primary" | "warning" }) {
-  const cls = tone === "primary" ? "bg-primary/10 text-primary" : "bg-warning/15 text-warning-foreground";
-  return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold ${cls}`}>
-      <Icon className="h-3.5 w-3.5" /> {label}
-    </span>
-  );
-}
 
 function Bar({ label, value, max, unit, warn = false, tone = "primary" }: { label: string; value: number; max: number; unit: string; warn?: boolean; tone?: "primary" | "blue" }) {
   const pct = Math.min(100, (value / max) * 100);
