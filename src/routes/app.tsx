@@ -170,14 +170,6 @@ function AppPage() {
   );
 }
 
-function Badge({ icon: Icon, label, tone }: { icon: React.ComponentType<{ className?: string }>; label: string; tone: "primary" | "warning" }) {
-  const cls = tone === "primary" ? "bg-primary/10 text-primary" : "bg-warning/15 text-warning-foreground";
-  return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold ${cls}`}>
-      <Icon className="h-3.5 w-3.5" /> {label}
-    </span>
-  );
-}
 
 function Bar({ label, value, max, unit, warn = false, tone = "primary" }: { label: string; value: number; max: number; unit: string; warn?: boolean; tone?: "primary" | "blue" }) {
   const pct = Math.min(100, (value / max) * 100);
