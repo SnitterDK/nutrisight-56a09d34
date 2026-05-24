@@ -100,7 +100,7 @@ export function LiveScanner({ goalLabel, autoOpen = false, onClose }: { goalLabe
     setImageUrl(dataUrl);
     setLoading(true);
     try {
-      const res = (await analyze({ data: { imageDataUrl: dataUrl, goal: goalLabel } })) as ScanResult;
+      const res = (await analyze({ data: { imageDataUrl: dataUrl, goal: goalLabel, mode } })) as ScanResult;
       setResult(res);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong");
