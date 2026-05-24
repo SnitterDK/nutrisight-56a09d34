@@ -220,7 +220,9 @@ export function LiveScanner({ goalLabel, autoOpen = false, onClose }: { goalLabe
                 <Camera className="h-7 w-7" />
               </span>
               <p className="text-sm text-muted-foreground">
-                Start the live camera and tap to scan, or upload a photo.
+                {mode === "recipe" && "Tag billede af en opskrift — AI'en læser de eksakte gram og lægger ingredienserne sammen."}
+                {mode === "menu" && "Tag billede af et menukort — AI'en finder den ret der passer bedst til dit mål."}
+                {mode === "food" && "Start live-kameraet og tryk for at scanne, eller upload et billede af din mad."}
               </p>
               {cameraError && (
                 <p className="text-xs text-destructive">{cameraError}</p>
