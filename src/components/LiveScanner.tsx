@@ -46,6 +46,17 @@ export function LiveScanner({ goalLabel, autoOpen = false, onClose }: { goalLabe
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoOpen]);
 
+  // Attach stream once the <video> is mounted (avoids race where srcObject
+  // is set before the element exists in the DOM).
+  useEffect(() => {
+    const v = videoRef.current;
+    const s = streamRef.current;
+    if (cameraActive && v && s && v.srcObject !== s) {
+      v.srcObject = s;
+      v.play().catch(() => {});
+    }
+  }, [cameraActive]);
+
   async function startCamera() {
     setCameraError(null);
     try {
@@ -55,10 +66,6 @@ export function LiveScanner({ goalLabel, autoOpen = false, onClose }: { goalLabe
       });
       streamRef.current = stream;
       setCameraActive(true);
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        await videoRef.current.play().catch(() => {});
-      }
     } catch (e) {
       setCameraError(e instanceof Error ? e.message : "Camera unavailable. You can upload an image instead.");
     }
