@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Link } from "@tanstack/react-router";
-import { Camera, Upload, Loader2, Sparkles, RefreshCw, AlertCircle, X, Check, Trophy } from "lucide-react";
-import { analyzeFood } from "@/lib/scan.functions";
+import { Camera, Upload, Loader2, Sparkles, RefreshCw, AlertCircle, X, Check, Trophy, Utensils, ScrollText, ClipboardList } from "lucide-react";
+import { analyzeFood, type ScanMode } from "@/lib/scan.functions";
 import { saveMeal } from "@/lib/meals.functions";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -38,6 +38,7 @@ export function LiveScanner({ goalLabel, autoOpen = false, onClose }: { goalLabe
   const [result, setResult] = useState<ScanResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+  const [mode, setMode] = useState<ScanMode>("food");
 
   useEffect(() => {
     if (autoOpen) void startCamera();
@@ -99,7 +100,7 @@ export function LiveScanner({ goalLabel, autoOpen = false, onClose }: { goalLabe
     setImageUrl(dataUrl);
     setLoading(true);
     try {
-      const res = (await analyze({ data: { imageDataUrl: dataUrl, goal: goalLabel } })) as ScanResult;
+      const res = (await analyze({ data: { imageDataUrl: dataUrl, goal: goalLabel, mode } })) as ScanResult;
       setResult(res);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong");
@@ -162,8 +163,29 @@ export function LiveScanner({ goalLabel, autoOpen = false, onClose }: { goalLabe
           )}
         </div>
       </div>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {([
+          { id: "food", label: "Mad", icon: Utensils, hint: "Foto af måltid" },
+          { id: "menu", label: "Menukort", icon: ScrollText, hint: "Vælger bedste ret" },
+          { id: "recipe", label: "Opskrift", icon: ClipboardList, hint: "Læser eksakte gram" },
+        ] as const).map((m) => {
+          const Icon = m.icon;
+          const active = mode === m.id;
+          return (
+            <button
+              key={m.id}
+              onClick={() => setMode(m.id)}
+              className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${active ? "border-primary bg-primary text-primary-foreground shadow" : "border-border bg-card text-foreground hover:bg-muted"}`}
+              title={m.hint}
+            >
+              <Icon className="h-3.5 w-3.5" /> {m.label}
+            </button>
+          );
+        })}
+      </div>
 
       <div className="mt-5 grid gap-5 md:grid-cols-2">
+
         {/* Camera / image */}
         <div className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-black">
           {/* Video viewfinder */}
@@ -198,7 +220,9 @@ export function LiveScanner({ goalLabel, autoOpen = false, onClose }: { goalLabe
                 <Camera className="h-7 w-7" />
               </span>
               <p className="text-sm text-muted-foreground">
-                Start the live camera and tap to scan, or upload a photo.
+                {mode === "recipe" && "Tag billede af en opskrift — AI'en læser de eksakte gram og lægger ingredienserne sammen."}
+                {mode === "menu" && "Tag billede af et menukort — AI'en finder den ret der passer bedst til dit mål."}
+                {mode === "food" && "Start live-kameraet og tryk for at scanne, eller upload et billede af din mad."}
               </p>
               {cameraError && (
                 <p className="text-xs text-destructive">{cameraError}</p>
