@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Link } from "@tanstack/react-router";
-import { Camera, Upload, Loader2, Sparkles, RefreshCw, AlertCircle, X, Check, Trophy } from "lucide-react";
-import { analyzeFood } from "@/lib/scan.functions";
+import { Camera, Upload, Loader2, Sparkles, RefreshCw, AlertCircle, X, Check, Trophy, Utensils, ScrollText, ClipboardList } from "lucide-react";
+import { analyzeFood, type ScanMode } from "@/lib/scan.functions";
 import { saveMeal } from "@/lib/meals.functions";
 import { useAuth } from "@/hooks/useAuth";
 
