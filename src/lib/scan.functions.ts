@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 
-type ScanInput = { imageDataUrl: string; goal: string };
+export type ScanMode = "food" | "menu" | "recipe";
+type ScanInput = { imageDataUrl: string; goal: string; mode?: ScanMode };
 
 export type ScanOutput = {
   food_name: string;
