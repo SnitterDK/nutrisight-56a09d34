@@ -151,6 +151,14 @@ function Home() {
       {/* EDUCATION: Visual nutrition, glucose impact, food comparison */}
       <NutritionEducation />
 
+      {/* COMPARISON TABLES: NutriSight vs trackers, modes, scope */}
+      <ComparisonTables />
+
+      {/* AI ANSWER BLOCKS: extractable Q&A for AI Mode / AI Overviews */}
+      <AnswerBlocks />
+
+
+
       {/* HOW IT WORKS */}
       <Section eyebrow="The solution" title="Camera → goal → memory → recommendation.">
         <div className="grid gap-4 md:grid-cols-4">
