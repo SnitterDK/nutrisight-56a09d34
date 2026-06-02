@@ -3,23 +3,57 @@ import { useState } from "react";
 import {
   Camera, Brain, Target, Sparkles, Clock, EyeOff, Utensils,
   ScanLine, ChartBar, BadgeCheck, Glasses, ShieldAlert,
-  Cpu, Heart, ArrowRight, GraduationCap, Trophy, Flame,
+  Heart, ArrowRight, GraduationCap, Trophy, Flame,
+  Scale, MessageSquare,
 } from "lucide-react";
 import { Section } from "@/components/Section";
 import { LiveScanner } from "@/components/LiveScanner";
 import { NutritionEducation } from "@/components/NutritionEducation";
+import { AnswerBlocks, ANSWER_FAQ_DATA } from "@/components/AnswerBlocks";
+import { ComparisonTables } from "@/components/ComparisonTables";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NutriSight — Understand food before you eat it" },
-      { name: "description", content: "AI vision, personal goals and meal memory for healthier food choices in real time." },
+      { title: "NutriSight — AI nutrition assistant: scan, describe, compare food" },
+      { name: "description", content: "NutriSight is an AI nutrition assistant. Scan a meal photo, describe what you ate, or compare two food choices side-by-side. Estimates calories, protein, sugar, carbs and fiber for your goal — before you eat." },
       { property: "og:title", content: "NutriSight — Understand food before you eat it" },
-      { property: "og:description", content: "Real-time AI nutrition assistant for phones and future AI glasses." },
+      { property: "og:description", content: "AI vision, personal goals and meal memory for healthier food choices in real time." },
+      { property: "og:url", content: "https://nutrisight.lovable.app/" },
+    ],
+    links: [{ rel: "canonical", href: "https://nutrisight.lovable.app/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: ANSWER_FAQ_DATA.map(({ q, a }) => ({
+            "@type": "Question",
+            name: q,
+            acceptedAnswer: { "@type": "Answer", text: a },
+          })),
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "HowTo",
+          name: "How to use NutriSight to understand a meal",
+          step: [
+            { "@type": "HowToStep", name: "Pick your focus goal", text: "Choose a focus like less sugar, more protein, stable blood sugar or weight loss." },
+            { "@type": "HowToStep", name: "Scan, describe or compare", text: "Use the camera, type the meal in plain language, or upload two photos to compare." },
+            { "@type": "HowToStep", name: "Read your estimate", text: "Get calories, protein, sugar, carbs and fiber with a goal-based health score." },
+            { "@type": "HowToStep", name: "Save and learn", text: "Save the meal to your daily memory and read the goal-based suggestion." },
+          ],
+        }),
+      },
     ],
   }),
   component: Home,
 });
+
 
 function Home() {
   const [scannerOpen, setScannerOpen] = useState(false);
@@ -46,10 +80,14 @@ function Home() {
             >
               <Camera className="h-5 w-5" /> Scan a food now
             </button>
-            <Link to="/learn" className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-4 text-sm font-semibold transition hover:bg-muted">
-              <GraduationCap className="h-4 w-4" /> Learn the science
+            <Link to="/compare" className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-6 py-4 text-sm font-semibold text-primary transition hover:bg-primary/20">
+              <Scale className="h-4 w-4" /> Compare two foods
+            </Link>
+            <Link to="/describe" className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-4 text-sm font-semibold transition hover:bg-muted">
+              <MessageSquare className="h-4 w-4" /> Describe a meal
             </Link>
           </div>
+
           <div className="mt-10 flex flex-wrap items-center gap-6 text-xs text-muted-foreground">
             <div className="flex items-center gap-2"><BadgeCheck className="h-4 w-4 text-primary" /> Personalized to your goals</div>
             <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-primary" /> Decisions in seconds</div>
@@ -112,6 +150,14 @@ function Home() {
 
       {/* EDUCATION: Visual nutrition, glucose impact, food comparison */}
       <NutritionEducation />
+
+      {/* COMPARISON TABLES: NutriSight vs trackers, modes, scope */}
+      <ComparisonTables />
+
+      {/* AI ANSWER BLOCKS: extractable Q&A for AI Mode / AI Overviews */}
+      <AnswerBlocks />
+
+
 
       {/* HOW IT WORKS */}
       <Section eyebrow="The solution" title="Camera → goal → memory → recommendation.">

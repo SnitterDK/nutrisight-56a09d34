@@ -71,6 +71,39 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "@id": "https://nutrisight.lovable.app/#org",
+              name: "NutriSight",
+              url: "https://nutrisight.lovable.app",
+              description: "AI nutrition assistant that helps people scan, describe and compare food before and after eating.",
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://nutrisight.lovable.app/#website",
+              url: "https://nutrisight.lovable.app",
+              name: "NutriSight",
+              publisher: { "@id": "https://nutrisight.lovable.app/#org" },
+            },
+            {
+              "@type": "SoftwareApplication",
+              name: "NutriSight",
+              applicationCategory: "HealthApplication",
+              operatingSystem: "Web, iOS, Android",
+              description: "Scan, describe and compare food with AI. Get goal-based nutrition estimates before and after eating. Estimates only — not medical advice.",
+              offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+            },
+          ],
+        }),
+      },
+    ],
+
   }),
   shellComponent: RootShell,
   component: RootComponent,

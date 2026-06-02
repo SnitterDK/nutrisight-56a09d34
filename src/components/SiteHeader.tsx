@@ -6,11 +6,12 @@ import { supabase } from "@/integrations/supabase/client";
 const navItems = [
   { to: "/", label: "Home" },
   { to: "/app", label: "Scan" },
+  { to: "/describe", label: "Describe" },
+  { to: "/compare", label: "Compare" },
   { to: "/learn", label: "Learn" },
   { to: "/history", label: "History" },
-  { to: "/how-it-works", label: "How it works" },
-  { to: "/glasses", label: "AI Glasses" },
 ] as const;
+
 
 export function SiteHeader() {
   const { user } = useAuth();
