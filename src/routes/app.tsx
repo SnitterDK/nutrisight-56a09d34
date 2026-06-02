@@ -232,3 +232,32 @@ function Bar({ label, value, max, unit, warn = false, tone = "primary" }: { labe
     </div>
   );
 }
+
+function QuickAction({ to, icon: Icon, label, hash }: { to: string; icon: typeof Camera; label: string; hash?: boolean }) {
+  if (hash) {
+    return (
+      <a href={to} className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-border bg-card p-4 text-center text-xs font-semibold transition hover:border-primary/40 hover:bg-primary/5">
+        <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary"><Icon className="h-4 w-4" /></span>
+        {label}
+      </a>
+    );
+  }
+  return (
+    <Link to={to} className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-border bg-card p-4 text-center text-xs font-semibold transition hover:border-primary/40 hover:bg-primary/5">
+      <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary"><Icon className="h-4 w-4" /></span>
+      {label}
+    </Link>
+  );
+}
+
+function buildInsight(totals: { kcal: number; sugar: number; protein: number; fiber: number }, targets: { kcal: number; sugar: number; protein: number; fiber: number }, goal: string): string {
+  if (totals.kcal === 0) return "No meals logged yet today. Start with a quick scan or describe your last meal — even one entry helps NutriSight personalize the rest of the day.";
+  const proteinPct = totals.protein / targets.protein;
+  const fiberPct = totals.fiber / targets.fiber;
+  const sugarPct = totals.sugar / targets.sugar;
+  if (sugarPct > 0.9) return `You're already near your sugar target for today. A protein- and fiber-rich next meal helps stabilize energy. (Goal: ${goal}.)`;
+  if (proteinPct < 0.5) return `Protein is running low. A meal with eggs, chicken, fish, lentils or Greek yogurt would balance the day. (Goal: ${goal}.)`;
+  if (fiberPct < 0.4) return `Fiber is low so far. Add vegetables, beans, fruit or whole grains to your next meal. (Goal: ${goal}.)`;
+  return `On track for ${goal.toLowerCase()}. Keep meals balanced and remember to hydrate.`;
+}
+
