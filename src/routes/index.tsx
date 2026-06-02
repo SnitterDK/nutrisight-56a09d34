@@ -80,10 +80,14 @@ function Home() {
             >
               <Camera className="h-5 w-5" /> Scan a food now
             </button>
-            <Link to="/learn" className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-4 text-sm font-semibold transition hover:bg-muted">
-              <GraduationCap className="h-4 w-4" /> Learn the science
+            <Link to="/compare" className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-6 py-4 text-sm font-semibold text-primary transition hover:bg-primary/20">
+              <Scale className="h-4 w-4" /> Compare two foods
+            </Link>
+            <Link to="/describe" className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-4 text-sm font-semibold transition hover:bg-muted">
+              <MessageSquare className="h-4 w-4" /> Describe a meal
             </Link>
           </div>
+
           <div className="mt-10 flex flex-wrap items-center gap-6 text-xs text-muted-foreground">
             <div className="flex items-center gap-2"><BadgeCheck className="h-4 w-4 text-primary" /> Personalized to your goals</div>
             <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-primary" /> Decisions in seconds</div>
