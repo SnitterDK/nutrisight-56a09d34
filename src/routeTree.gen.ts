@@ -14,7 +14,9 @@ import { Route as LearnRouteImport } from './routes/learn'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as GlassesRouteImport } from './routes/glasses'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
+import { Route as DescribeRouteImport } from './routes/describe'
 import { Route as DemoRouteImport } from './routes/demo'
+import { Route as CompareRouteImport } from './routes/compare'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AboutRouteImport } from './routes/about'
@@ -48,9 +50,19 @@ const DisclaimerRoute = DisclaimerRouteImport.update({
   path: '/disclaimer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DescribeRoute = DescribeRouteImport.update({
+  id: '/describe',
+  path: '/describe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoRoute = DemoRouteImport.update({
   id: '/demo',
   path: '/demo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareRoute = CompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -93,7 +105,9 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
+  '/compare': typeof CompareRoute
   '/demo': typeof DemoRoute
+  '/describe': typeof DescribeRoute
   '/disclaimer': typeof DisclaimerRoute
   '/glasses': typeof GlassesRoute
   '/how-it-works': typeof HowItWorksRoute
@@ -107,7 +121,9 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
+  '/compare': typeof CompareRoute
   '/demo': typeof DemoRoute
+  '/describe': typeof DescribeRoute
   '/disclaimer': typeof DisclaimerRoute
   '/glasses': typeof GlassesRoute
   '/how-it-works': typeof HowItWorksRoute
@@ -123,7 +139,9 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
+  '/compare': typeof CompareRoute
   '/demo': typeof DemoRoute
+  '/describe': typeof DescribeRoute
   '/disclaimer': typeof DisclaimerRoute
   '/glasses': typeof GlassesRoute
   '/how-it-works': typeof HowItWorksRoute
@@ -139,7 +157,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/app'
     | '/auth'
+    | '/compare'
     | '/demo'
+    | '/describe'
     | '/disclaimer'
     | '/glasses'
     | '/how-it-works'
@@ -153,7 +173,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/app'
     | '/auth'
+    | '/compare'
     | '/demo'
+    | '/describe'
     | '/disclaimer'
     | '/glasses'
     | '/how-it-works'
@@ -168,7 +190,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/app'
     | '/auth'
+    | '/compare'
     | '/demo'
+    | '/describe'
     | '/disclaimer'
     | '/glasses'
     | '/how-it-works'
@@ -184,7 +208,9 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AppRoute: typeof AppRoute
   AuthRoute: typeof AuthRoute
+  CompareRoute: typeof CompareRoute
   DemoRoute: typeof DemoRoute
+  DescribeRoute: typeof DescribeRoute
   DisclaimerRoute: typeof DisclaimerRoute
   GlassesRoute: typeof GlassesRoute
   HowItWorksRoute: typeof HowItWorksRoute
@@ -229,11 +255,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DisclaimerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/describe': {
+      id: '/describe'
+      path: '/describe'
+      fullPath: '/describe'
+      preLoaderRoute: typeof DescribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo': {
       id: '/demo'
       path: '/demo'
       fullPath: '/demo'
       preLoaderRoute: typeof DemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare': {
+      id: '/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof CompareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -308,7 +348,9 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AppRoute: AppRoute,
   AuthRoute: AuthRoute,
+  CompareRoute: CompareRoute,
   DemoRoute: DemoRoute,
+  DescribeRoute: DescribeRoute,
   DisclaimerRoute: DisclaimerRoute,
   GlassesRoute: GlassesRoute,
   HowItWorksRoute: HowItWorksRoute,
@@ -318,3 +360,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
