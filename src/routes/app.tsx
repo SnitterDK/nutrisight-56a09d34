@@ -78,12 +78,57 @@ function AppPage() {
     fiber: profileQ.data?.daily_fiber_target_g ?? 30,
   };
 
+  const greeting = useMemo(() => {
+    const h = new Date().getHours();
+    if (h < 11) return "Good morning";
+    if (h < 17) return "Good afternoon";
+    return "Good evening";
+  }, []);
+  const timeFocus = useMemo(() => {
+    const h = new Date().getHours();
+    if (h < 11) return "Hydration and a protein-rich breakfast set the day up for stable energy.";
+    if (h < 17) return "Watch the afternoon dip — a high-fiber, protein-balanced lunch beats fast carbs.";
+    return "Wind-down meals: lighter carbs, more vegetables and protein help next-morning energy.";
+  }, []);
+
+  const todaysInsight = useMemo(() => buildInsight(totals, targets, goalLabel), [totals, targets, goalLabel]);
+  const firstName = (profileQ.data?.display_name || user?.email?.split("@")[0] || "").split(" ")[0];
+
   return (
     <>
+      {/* Today header */}
+      <section className="container-page pt-8 md:pt-12">
+        <p className="text-xs font-semibold uppercase tracking-wider text-primary">Today</p>
+        <h1 className="mt-1 text-3xl font-extrabold leading-tight md:text-4xl">
+          {greeting}{firstName ? `, ${firstName}` : ""}.
+        </h1>
+        <p className="mt-2 max-w-2xl text-sm text-muted-foreground md:text-base">{timeFocus}</p>
+
+        {/* Quick actions */}
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          <QuickAction to="/app#scan" icon={Camera} label="Scan meal" hash />
+          <QuickAction to="/describe" icon={MessageSquare} label="Describe" />
+          <QuickAction to="/compare" icon={Scale} label="Compare" />
+          <QuickAction to="/app#scan" icon={ScrollText} label="Receipt / menu" hash />
+          <QuickAction to="/learn" icon={HelpCircle} label="Ask / Learn" />
+          <QuickAction to="/history" icon={Plus} label="History" />
+        </div>
+
+        {/* Today's insight */}
+        <div className="mt-6 flex items-start gap-3 rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/10 via-card to-brand-blue/10 p-5">
+          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground"><Lightbulb className="h-5 w-5" /></span>
+          <div className="min-w-0">
+            <p className="text-xs font-semibold uppercase tracking-wider text-primary">Today's Insight</p>
+            <p className="mt-1 text-sm font-medium leading-snug md:text-base">{todaysInsight}</p>
+          </div>
+        </div>
+      </section>
+
       {/* Game dashboard — level, quests, achievements */}
       <Section eyebrow="Your game" title="Level up by eating smarter" subtitle="Every scan, every lesson, every healthy choice earns XP. Build streaks, unlock ranks, smash daily quests.">
         <GameDashboard profile={profileQ.data ?? null} todayMeals={todayQ.data ?? []} />
       </Section>
+
 
 
       {/* Scanner */}
