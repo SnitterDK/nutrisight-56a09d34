@@ -132,9 +132,11 @@ function AppPage() {
 
 
       {/* Scanner */}
+      <div id="scan" />
       <Section eyebrow="Live scan" title="Scan food right now" subtitle="Tap to capture. AI analyzes it against your goal in seconds.">
         <LiveScanner goalLabel={goalLabel} autoOpen={false} />
       </Section>
+
 
       {/* Goal picker */}
       <Section eyebrow="Focus goal" title="What do you want NutriSight to optimize for?" subtitle="Your focus goal becomes the scoring lens for every scan. You learn faster about what matters to you.">
