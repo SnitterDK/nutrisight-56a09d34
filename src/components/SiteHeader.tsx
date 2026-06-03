@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Leaf, LogOut, User as UserIcon } from "lucide-react";
+import { Leaf, LogOut, User as UserIcon, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { supabase } from "@/integrations/supabase/client";
 
 const navItems = [
@@ -15,6 +16,7 @@ const navItems = [
 
 export function SiteHeader() {
   const { user } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const navigate = useNavigate();
 
   async function signOut() {
