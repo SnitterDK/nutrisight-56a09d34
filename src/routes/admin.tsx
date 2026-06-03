@@ -13,17 +13,17 @@ export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
-const adminNav = [
+const adminNav: Array<{ to: string; label: string; icon: any; exact: boolean; soon?: boolean }> = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/beta", label: "Beta Signups", icon: Inbox, exact: false },
-  { to: "/admin/users", label: "Users", icon: Users, exact: false },
-  { to: "/admin/scans", label: "Scan Events", icon: ScanLine, exact: false },
-  { to: "/admin/gemini", label: "Gemini Logs", icon: Sparkles, exact: false },
-  { to: "/admin/feedback", label: "Feedback", icon: MessageSquare, exact: false },
-  { to: "/admin/reports", label: "Reports", icon: FileText, exact: false },
-  { to: "/admin/export", label: "Export", icon: Download, exact: false },
-  { to: "/admin/settings", label: "Settings", icon: Settings, exact: false },
-] as const;
+  { to: "/admin/users", label: "Users", icon: Users, exact: false, soon: true },
+  { to: "/admin/scans", label: "Scan Events", icon: ScanLine, exact: false, soon: true },
+  { to: "/admin/gemini", label: "Gemini Logs", icon: Sparkles, exact: false, soon: true },
+  { to: "/admin/feedback", label: "Feedback", icon: MessageSquare, exact: false, soon: true },
+  { to: "/admin/reports", label: "Reports", icon: FileText, exact: false, soon: true },
+  { to: "/admin/export", label: "Export", icon: Download, exact: false, soon: true },
+  { to: "/admin/settings", label: "Settings", icon: Settings, exact: false, soon: true },
+];
 
 function AdminLayout() {
   const { user, loading: authLoading } = useAuth();
