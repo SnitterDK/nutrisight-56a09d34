@@ -63,16 +63,19 @@ function AdminLayout() {
             Founder console
           </p>
           <nav className="flex flex-col gap-0.5">
-            {adminNav.map(({ to, label, icon: Icon, exact }) => {
+            {adminNav.map(({ to, label, icon: Icon, exact, soon }) => {
               const active = exact ? pathname === to : pathname.startsWith(to);
-              return (
-                <Link
-                  key={to}
-                  to={to}
-                  className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition ${
-                    active ? "bg-primary/10 text-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  }`}
-                >
+              const className = `flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition ${
+                active ? "bg-primary/10 text-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              } ${soon ? "cursor-not-allowed opacity-50" : ""}`;
+              return soon ? (
+                <span key={to} className={className} title="Coming next phase">
+                  <Icon className="h-4 w-4" />
+                  {label}
+                  <span className="ml-auto text-[9px] uppercase">soon</span>
+                </span>
+              ) : (
+                <Link key={to} to={to} className={className}>
                   <Icon className="h-4 w-4" />
                   {label}
                 </Link>
