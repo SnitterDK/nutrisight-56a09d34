@@ -3,7 +3,7 @@ import { Loader2, LayoutDashboard, Users, Inbox, ScanLine, Sparkles, MessageSqua
 import { useAuth } from "@/hooks/useAuth";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 
-export const Route = createFileRoute("/_admin")({
+export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
       { title: "Admin — NutriSight" },

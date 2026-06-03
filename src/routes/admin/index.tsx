@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Loader2, Users, Inbox, ScanLine, Sparkles, Activity, MessageSquare, Target, Heart, DollarSign, Calendar, TrendingUp, BookOpen } from "lucide-react";
 import { getAdminKpis } from "@/lib/admin.functions";
 
-export const Route = createFileRoute("/_admin/")({
+export const Route = createFileRoute("/admin/")({
   component: AdminDashboard,
 });
 

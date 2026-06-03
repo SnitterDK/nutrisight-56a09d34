@@ -5,7 +5,7 @@ import { useState, useMemo } from "react";
 import { Loader2, Download, Search } from "lucide-react";
 import { listBetaSignups, updateBetaSignup } from "@/lib/admin.functions";
 
-export const Route = createFileRoute("/_admin/beta")({
+export const Route = createFileRoute("/admin/beta")({
   component: BetaSignupsPage,
 });
 
