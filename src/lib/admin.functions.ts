@@ -99,7 +99,7 @@ export const getAdminKpis = createServerFn({ method: "GET" })
       .limit(1000);
     const scores = (scoreRows ?? []).map((r: any) => r.health_score as number);
     const avgHealthScore = scores.length
-      ? Math.round((scores.reduce((s, n) => s + n, 0) / scores.length) * 10) / 10
+      ? Math.round((scores.reduce((s: number, n: number) => s + n, 0) / scores.length) * 10) / 10
       : 0;
 
     return {
