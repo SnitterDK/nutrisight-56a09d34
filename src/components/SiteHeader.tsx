@@ -48,6 +48,11 @@ export function SiteHeader() {
         <div className="hidden items-center gap-2 md:flex">
           {user ? (
             <>
+              {isAdmin && (
+                <Link to="/admin" className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20">
+                  <ShieldCheck className="h-3.5 w-3.5" /> Admin
+                </Link>
+              )}
               <Link to="/profile" className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:bg-muted">
                 <UserIcon className="h-3.5 w-3.5" /> Profile
               </Link>
