@@ -11,6 +11,7 @@ import { LiveScanner } from "@/components/LiveScanner";
 import { NutritionEducation } from "@/components/NutritionEducation";
 import { AnswerBlocks, ANSWER_FAQ_DATA } from "@/components/AnswerBlocks";
 import { ComparisonTables } from "@/components/ComparisonTables";
+import { BetaSignupForm } from "@/components/BetaSignupForm";
 
 export const Route = createFileRoute("/")({
   head: () => ({
