@@ -14,6 +14,126 @@ export type Database = {
   }
   public: {
     Tables: {
+      beta_signups: {
+        Row: {
+          consent_contact: boolean
+          consent_testimonial: boolean
+          created_at: string
+          email: string
+          id: string
+          internal_notes: string | null
+          message: string | null
+          name: string
+          selected_goal: string | null
+          source_page: string | null
+          status: Database["public"]["Enums"]["beta_status"]
+        }
+        Insert: {
+          consent_contact?: boolean
+          consent_testimonial?: boolean
+          created_at?: string
+          email: string
+          id?: string
+          internal_notes?: string | null
+          message?: string | null
+          name: string
+          selected_goal?: string | null
+          source_page?: string | null
+          status?: Database["public"]["Enums"]["beta_status"]
+        }
+        Update: {
+          consent_contact?: boolean
+          consent_testimonial?: boolean
+          created_at?: string
+          email?: string
+          id?: string
+          internal_notes?: string | null
+          message?: string | null
+          name?: string
+          selected_goal?: string | null
+          source_page?: string | null
+          status?: Database["public"]["Enums"]["beta_status"]
+        }
+        Relationships: []
+      }
+      feedback: {
+        Row: {
+          created_at: string
+          email: string | null
+          feature_area: string | null
+          feedback_text: string
+          id: string
+          rating: number | null
+          testimonial_permission: boolean
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          feature_area?: string | null
+          feedback_text: string
+          id?: string
+          rating?: number | null
+          testimonial_permission?: boolean
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          feature_area?: string | null
+          feedback_text?: string
+          id?: string
+          rating?: number | null
+          testimonial_permission?: boolean
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      gemini_logs: {
+        Row: {
+          anonymous_id: string | null
+          created_at: string
+          id: string
+          input_type: string | null
+          latency_ms: number | null
+          model_used: string | null
+          prompt_summary: string | null
+          response_summary: string | null
+          safety_flags: Json | null
+          status: string
+          token_usage: Json | null
+          user_id: string | null
+        }
+        Insert: {
+          anonymous_id?: string | null
+          created_at?: string
+          id?: string
+          input_type?: string | null
+          latency_ms?: number | null
+          model_used?: string | null
+          prompt_summary?: string | null
+          response_summary?: string | null
+          safety_flags?: Json | null
+          status?: string
+          token_usage?: Json | null
+          user_id?: string | null
+        }
+        Update: {
+          anonymous_id?: string | null
+          created_at?: string
+          id?: string
+          input_type?: string | null
+          latency_ms?: number | null
+          model_used?: string | null
+          prompt_summary?: string | null
+          response_summary?: string | null
+          safety_flags?: Json | null
+          status?: string
+          token_usage?: Json | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       learning_progress: {
         Row: {
           completed_at: string
@@ -146,15 +266,103 @@ export type Database = {
         }
         Relationships: []
       }
+      scan_events: {
+        Row: {
+          anonymous_id: string | null
+          confidence: number | null
+          created_at: string
+          detected_food_items: Json | null
+          estimated_calories: number | null
+          estimated_carbs: number | null
+          estimated_fiber: number | null
+          estimated_protein: number | null
+          estimated_salt: string | null
+          estimated_sugar: number | null
+          id: string
+          input_type: string | null
+          recommendation: string | null
+          safety_disclaimer_shown: boolean
+          selected_goal: string | null
+          used_gemini: boolean
+          user_id: string | null
+        }
+        Insert: {
+          anonymous_id?: string | null
+          confidence?: number | null
+          created_at?: string
+          detected_food_items?: Json | null
+          estimated_calories?: number | null
+          estimated_carbs?: number | null
+          estimated_fiber?: number | null
+          estimated_protein?: number | null
+          estimated_salt?: string | null
+          estimated_sugar?: number | null
+          id?: string
+          input_type?: string | null
+          recommendation?: string | null
+          safety_disclaimer_shown?: boolean
+          selected_goal?: string | null
+          used_gemini?: boolean
+          user_id?: string | null
+        }
+        Update: {
+          anonymous_id?: string | null
+          confidence?: number | null
+          created_at?: string
+          detected_food_items?: Json | null
+          estimated_calories?: number | null
+          estimated_carbs?: number | null
+          estimated_fiber?: number | null
+          estimated_protein?: number | null
+          estimated_salt?: string | null
+          estimated_sugar?: number | null
+          id?: string
+          input_type?: string | null
+          recommendation?: string | null
+          safety_disclaimer_shown?: boolean
+          selected_goal?: string | null
+          used_gemini?: boolean
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
+      beta_status: "new" | "contacted" | "tester" | "partner" | "archived"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -281,6 +489,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+      beta_status: ["new", "contacted", "tester", "partner", "archived"],
+    },
   },
 } as const
