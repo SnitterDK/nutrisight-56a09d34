@@ -280,6 +280,15 @@ function Home() {
           </div>
         </div>
       </section>
+
+      {/* BETA SIGNUP */}
+      <Section
+        eyebrow="Beta access"
+        title="Want early access to NutriSight?"
+        subtitle="We're onboarding founders, dietitians, students and curious eaters. Tell us your goal and we'll be in touch."
+      >
+        <BetaSignupForm />
+      </Section>
     </>
   );
 }
