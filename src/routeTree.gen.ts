@@ -13,6 +13,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as ManifestoRouteImport } from './routes/manifesto'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as GlassesRouteImport } from './routes/glasses'
@@ -50,6 +51,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ManifestoRoute = ManifestoRouteImport.update({
+  id: '/manifesto',
+  path: '/manifesto',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LearnRoute = LearnRouteImport.update({
@@ -156,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/glasses': typeof GlassesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/learn': typeof LearnRoute
+  '/manifesto': typeof ManifestoRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -178,6 +185,7 @@ export interface FileRoutesByTo {
   '/glasses': typeof GlassesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/learn': typeof LearnRoute
+  '/manifesto': typeof ManifestoRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -203,6 +211,7 @@ export interface FileRoutesById {
   '/glasses': typeof GlassesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/learn': typeof LearnRoute
+  '/manifesto': typeof ManifestoRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -228,6 +237,7 @@ export interface FileRouteTypes {
     | '/glasses'
     | '/how-it-works'
     | '/learn'
+    | '/manifesto'
     | '/pricing'
     | '/privacy'
     | '/sitemap.xml'
@@ -250,6 +260,7 @@ export interface FileRouteTypes {
     | '/glasses'
     | '/how-it-works'
     | '/learn'
+    | '/manifesto'
     | '/pricing'
     | '/privacy'
     | '/sitemap.xml'
@@ -274,6 +285,7 @@ export interface FileRouteTypes {
     | '/glasses'
     | '/how-it-works'
     | '/learn'
+    | '/manifesto'
     | '/pricing'
     | '/privacy'
     | '/sitemap.xml'
@@ -299,6 +311,7 @@ export interface RootRouteChildren {
   GlassesRoute: typeof GlassesRoute
   HowItWorksRoute: typeof HowItWorksRoute
   LearnRoute: typeof LearnRoute
+  ManifestoRoute: typeof ManifestoRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -333,6 +346,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/manifesto': {
+      id: '/manifesto'
+      path: '/manifesto'
+      fullPath: '/manifesto'
+      preLoaderRoute: typeof ManifestoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/learn': {
@@ -505,6 +525,7 @@ const rootRouteChildren: RootRouteChildren = {
   GlassesRoute: GlassesRoute,
   HowItWorksRoute: HowItWorksRoute,
   LearnRoute: LearnRoute,
+  ManifestoRoute: ManifestoRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
