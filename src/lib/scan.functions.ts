@@ -43,14 +43,18 @@ export type DescribeOutput = ScanOutput & {
 
 const LOVABLE_AI_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
 
-async function callAI(body: Record<string, unknown>) {
+export type AiMeta = { model: string; latency_ms: number; provider: string };
+
+async function callAI(body: Record<string, unknown>): Promise<{ data: any; meta: AiMeta }> {
   const apiKey = process.env.LOVABLE_API_KEY;
   if (!apiKey) throw new Error("LOVABLE_API_KEY is not configured");
+  const started = Date.now();
   const res = await fetch(LOVABLE_AI_URL, {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
+  const latency_ms = Date.now() - started;
   if (!res.ok) {
     const text = await res.text();
     if (res.status === 429) throw new Error("Rate limit reached — try again in a moment.");
@@ -59,13 +63,19 @@ async function callAI(body: Record<string, unknown>) {
   }
   const json = await res.json();
   const content: string = json?.choices?.[0]?.message?.content ?? "";
-  try {
-    return JSON.parse(content);
-  } catch {
-    const match = content.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error("AI returned an unparseable response.");
-    return JSON.parse(match[0]);
-  }
+  const meta: AiMeta = {
+    model: String(body.model ?? "google/gemini-2.5-flash"),
+    latency_ms,
+    provider: "Google Gemini via Lovable AI Gateway",
+  };
+  const tryParse = (s: string) => {
+    try { return JSON.parse(s); } catch {
+      const m = s.match(/\{[\s\S]*\}/);
+      if (!m) throw new Error("AI returned an unparseable response.");
+      return JSON.parse(m[0]);
+    }
+  };
+  return { data: tryParse(content), meta };
 }
 
 export const analyzeFood = createServerFn({ method: "POST" })
