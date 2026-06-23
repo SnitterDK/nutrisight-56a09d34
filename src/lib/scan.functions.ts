@@ -150,7 +150,6 @@ Respond ONLY with strict JSON:
       carb_impact: str(parsed.carb_impact, "medium"),
       health_score: num(parsed.health_score),
       recommendation: str(parsed.recommendation, ""),
-      _meta: meta,
       notes: str(parsed.notes, ""),
       _meta: meta,
     };
@@ -289,7 +288,6 @@ Estimates only — never medical advice. Tone: calm, supportive.`;
       carb_impact: str(parsed.carb_impact, "medium"),
       health_score: num(parsed.health_score),
       recommendation: str(parsed.recommendation, ""),
-      _meta: meta,
       notes: str(parsed.notes, ""),
       _meta: meta,
       items,
