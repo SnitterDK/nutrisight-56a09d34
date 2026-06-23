@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Link } from "@tanstack/react-router";
 import { Camera, Upload, Loader2, Sparkles, RefreshCw, AlertCircle, X, Check, Trophy, Utensils, ScrollText, ClipboardList } from "lucide-react";
-import { analyzeFood, type ScanMode } from "@/lib/scan.functions";
+import { analyzeFood, type ScanMode, type AiMetaPublic } from "@/lib/scan.functions";
 import { saveMeal } from "@/lib/meals.functions";
 import { useAuth } from "@/hooks/useAuth";
+import { GeminiBadge } from "@/components/GeminiBadge";
 
 type ScanResult = {
   food_name?: string;
@@ -20,6 +21,7 @@ type ScanResult = {
   health_score?: number;
   recommendation?: string;
   notes?: string;
+  _meta?: AiMetaPublic;
 };
 
 export function LiveScanner({ goalLabel, autoOpen = false, onClose }: { goalLabel: string; autoOpen?: boolean; onClose?: () => void }) {
