@@ -150,7 +150,9 @@ Respond ONLY with strict JSON:
       carb_impact: str(parsed.carb_impact, "medium"),
       health_score: num(parsed.health_score),
       recommendation: str(parsed.recommendation, ""),
+      _meta: meta,
       notes: str(parsed.notes, ""),
+      _meta: meta,
     };
     return out;
   });
@@ -223,6 +225,7 @@ Recommendation: 1-2 sentences explaining the better choice for the user's goal. 
       items,
       winner_index: winner,
       recommendation: str(parsed.recommendation, ""),
+      _meta: meta,
     };
     return out;
   });
@@ -286,7 +289,9 @@ Estimates only — never medical advice. Tone: calm, supportive.`;
       carb_impact: str(parsed.carb_impact, "medium"),
       health_score: num(parsed.health_score),
       recommendation: str(parsed.recommendation, ""),
+      _meta: meta,
       notes: str(parsed.notes, ""),
+      _meta: meta,
       items,
     };
     return out;
