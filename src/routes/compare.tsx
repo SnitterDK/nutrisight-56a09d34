@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Upload, Loader2, Sparkles, AlertCircle, Trophy, RefreshCw, Scale } from "lucide-react";
 import { compareFoods, type CompareOutput } from "@/lib/scan.functions";
 import { Section } from "@/components/Section";
+import { GeminiBadge } from "@/components/GeminiBadge";
 
 export const Route = createFileRoute("/compare")({
   head: () => ({
