@@ -3,6 +3,8 @@ import { createServerFn } from "@tanstack/react-start";
 export type ScanMode = "food" | "menu" | "recipe";
 type ScanInput = { imageDataUrl: string; goal: string; mode?: ScanMode };
 
+export type AiMetaPublic = { model: string; latency_ms: number; provider: string };
+
 export type ScanOutput = {
   food_name: string;
   confidence: string;
@@ -17,6 +19,7 @@ export type ScanOutput = {
   health_score: number;
   recommendation: string;
   notes: string;
+  _meta?: AiMetaPublic;
 };
 
 export type CompareItem = {
@@ -35,6 +38,7 @@ export type CompareOutput = {
   items: CompareItem[];
   winner_index: number;
   recommendation: string;
+  _meta?: AiMetaPublic;
 };
 
 export type DescribeOutput = ScanOutput & {
