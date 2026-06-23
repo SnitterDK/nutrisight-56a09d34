@@ -3,6 +3,8 @@ import { createServerFn } from "@tanstack/react-start";
 export type ScanMode = "food" | "menu" | "recipe";
 type ScanInput = { imageDataUrl: string; goal: string; mode?: ScanMode };
 
+export type AiMetaPublic = { model: string; latency_ms: number; provider: string };
+
 export type ScanOutput = {
   food_name: string;
   confidence: string;
@@ -17,6 +19,7 @@ export type ScanOutput = {
   health_score: number;
   recommendation: string;
   notes: string;
+  _meta?: AiMetaPublic;
 };
 
 export type CompareItem = {
@@ -35,6 +38,7 @@ export type CompareOutput = {
   items: CompareItem[];
   winner_index: number;
   recommendation: string;
+  _meta?: AiMetaPublic;
 };
 
 export type DescribeOutput = ScanOutput & {
@@ -43,14 +47,18 @@ export type DescribeOutput = ScanOutput & {
 
 const LOVABLE_AI_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
 
-async function callAI(body: Record<string, unknown>) {
+export type AiMeta = { model: string; latency_ms: number; provider: string };
+
+async function callAI(body: Record<string, unknown>): Promise<{ data: any; meta: AiMeta }> {
   const apiKey = process.env.LOVABLE_API_KEY;
   if (!apiKey) throw new Error("LOVABLE_API_KEY is not configured");
+  const started = Date.now();
   const res = await fetch(LOVABLE_AI_URL, {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
+  const latency_ms = Date.now() - started;
   if (!res.ok) {
     const text = await res.text();
     if (res.status === 429) throw new Error("Rate limit reached — try again in a moment.");
@@ -59,13 +67,19 @@ async function callAI(body: Record<string, unknown>) {
   }
   const json = await res.json();
   const content: string = json?.choices?.[0]?.message?.content ?? "";
-  try {
-    return JSON.parse(content);
-  } catch {
-    const match = content.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error("AI returned an unparseable response.");
-    return JSON.parse(match[0]);
-  }
+  const meta: AiMeta = {
+    model: String(body.model ?? "google/gemini-2.5-flash"),
+    latency_ms,
+    provider: "Google Gemini via Lovable AI Gateway",
+  };
+  const tryParse = (s: string) => {
+    try { return JSON.parse(s); } catch {
+      const m = s.match(/\{[\s\S]*\}/);
+      if (!m) throw new Error("AI returned an unparseable response.");
+      return JSON.parse(m[0]);
+    }
+  };
+  return { data: tryParse(content), meta };
 }
 
 export const analyzeFood = createServerFn({ method: "POST" })
@@ -106,7 +120,7 @@ Respond ONLY with strict JSON:
   "notes": string
 }`;
 
-    const parsed = await callAI({
+    const { data: parsed, meta } = await callAI({
       model: data.mode === "recipe" || data.mode === "menu" ? "google/gemini-2.5-pro" : "google/gemini-2.5-flash",
       messages: [
         { role: "system", content: systemPrompt },
@@ -137,6 +151,7 @@ Respond ONLY with strict JSON:
       health_score: num(parsed.health_score),
       recommendation: str(parsed.recommendation, ""),
       notes: str(parsed.notes, ""),
+      _meta: meta,
     };
     return out;
   });
@@ -168,7 +183,7 @@ Return strict JSON only:
 
 Recommendation: 1-2 sentences explaining the better choice for the user's goal. Calm, supportive, never fear-based. Estimates only.`;
 
-    const parsed = await callAI({
+    const { data: parsed, meta } = await callAI({
       model: "google/gemini-2.5-pro",
       messages: [
         { role: "system", content: systemPrompt },
@@ -209,6 +224,7 @@ Recommendation: 1-2 sentences explaining the better choice for the user's goal. 
       items,
       winner_index: winner,
       recommendation: str(parsed.recommendation, ""),
+      _meta: meta,
     };
     return out;
   });
@@ -240,7 +256,7 @@ Return strict JSON only:
 
 Estimates only — never medical advice. Tone: calm, supportive.`;
 
-    const parsed = await callAI({
+    const { data: parsed, meta } = await callAI({
       model: "google/gemini-2.5-flash",
       messages: [
         { role: "system", content: systemPrompt },
@@ -273,6 +289,7 @@ Estimates only — never medical advice. Tone: calm, supportive.`;
       health_score: num(parsed.health_score),
       recommendation: str(parsed.recommendation, ""),
       notes: str(parsed.notes, ""),
+      _meta: meta,
       items,
     };
     return out;

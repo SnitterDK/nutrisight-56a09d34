@@ -9,7 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as GlassesRouteImport } from './routes/glasses'
@@ -19,6 +22,7 @@ import { Route as DemoRouteImport } from './routes/demo'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/app'
+import { Route as AiOperationsRouteImport } from './routes/ai-operations'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
@@ -28,9 +32,24 @@ import { Route as AdminBetaRouteImport } from './routes/admin/beta'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedHistoryRouteImport } from './routes/_authenticated/history'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LearnRoute = LearnRouteImport.update({
@@ -78,6 +97,11 @@ const AppRoute = AppRouteImport.update({
   path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiOperationsRoute = AiOperationsRouteImport.update({
+  id: '/ai-operations',
+  path: '/ai-operations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -122,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
+  '/ai-operations': typeof AiOperationsRoute
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/compare': typeof CompareRoute
@@ -131,7 +156,10 @@ export interface FileRoutesByFullPath {
   '/glasses': typeof GlassesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/learn': typeof LearnRoute
+  '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/history': typeof AuthenticatedHistoryRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/admin/beta': typeof AdminBetaRoute
@@ -140,6 +168,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ai-operations': typeof AiOperationsRoute
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/compare': typeof CompareRoute
@@ -149,7 +178,10 @@ export interface FileRoutesByTo {
   '/glasses': typeof GlassesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/learn': typeof LearnRoute
+  '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/history': typeof AuthenticatedHistoryRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/admin/beta': typeof AdminBetaRoute
@@ -161,6 +193,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
+  '/ai-operations': typeof AiOperationsRoute
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/compare': typeof CompareRoute
@@ -170,7 +203,10 @@ export interface FileRoutesById {
   '/glasses': typeof GlassesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/learn': typeof LearnRoute
+  '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/_authenticated/history': typeof AuthenticatedHistoryRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/admin/beta': typeof AdminBetaRoute
@@ -182,6 +218,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
+    | '/ai-operations'
     | '/app'
     | '/auth'
     | '/compare'
@@ -191,7 +228,10 @@ export interface FileRouteTypes {
     | '/glasses'
     | '/how-it-works'
     | '/learn'
+    | '/pricing'
+    | '/privacy'
     | '/sitemap.xml'
+    | '/terms'
     | '/history'
     | '/profile'
     | '/admin/beta'
@@ -200,6 +240,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/ai-operations'
     | '/app'
     | '/auth'
     | '/compare'
@@ -209,7 +250,10 @@ export interface FileRouteTypes {
     | '/glasses'
     | '/how-it-works'
     | '/learn'
+    | '/pricing'
+    | '/privacy'
     | '/sitemap.xml'
+    | '/terms'
     | '/history'
     | '/profile'
     | '/admin/beta'
@@ -220,6 +264,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/about'
     | '/admin'
+    | '/ai-operations'
     | '/app'
     | '/auth'
     | '/compare'
@@ -229,7 +274,10 @@ export interface FileRouteTypes {
     | '/glasses'
     | '/how-it-works'
     | '/learn'
+    | '/pricing'
+    | '/privacy'
     | '/sitemap.xml'
+    | '/terms'
     | '/_authenticated/history'
     | '/_authenticated/profile'
     | '/admin/beta'
@@ -241,6 +289,7 @@ export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AiOperationsRoute: typeof AiOperationsRoute
   AppRoute: typeof AppRoute
   AuthRoute: typeof AuthRoute
   CompareRoute: typeof CompareRoute
@@ -250,16 +299,40 @@ export interface RootRouteChildren {
   GlassesRoute: typeof GlassesRoute
   HowItWorksRoute: typeof HowItWorksRoute
   LearnRoute: typeof LearnRoute
+  PricingRoute: typeof PricingRoute
+  PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TermsRoute: typeof TermsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/learn': {
@@ -323,6 +396,13 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-operations': {
+      id: '/ai-operations'
+      path: '/ai-operations'
+      fullPath: '/ai-operations'
+      preLoaderRoute: typeof AiOperationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -415,6 +495,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
+  AiOperationsRoute: AiOperationsRoute,
   AppRoute: AppRoute,
   AuthRoute: AuthRoute,
   CompareRoute: CompareRoute,
@@ -424,18 +505,11 @@ const rootRouteChildren: RootRouteChildren = {
   GlassesRoute: GlassesRoute,
   HowItWorksRoute: HowItWorksRoute,
   LearnRoute: LearnRoute,
+  PricingRoute: PricingRoute,
+  PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

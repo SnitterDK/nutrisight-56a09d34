@@ -7,10 +7,10 @@ import { supabase } from "@/integrations/supabase/client";
 const navItems = [
   { to: "/", label: "Home" },
   { to: "/app", label: "Scan" },
-  { to: "/describe", label: "Describe" },
   { to: "/compare", label: "Compare" },
   { to: "/learn", label: "Learn" },
-  { to: "/history", label: "History" },
+  { to: "/pricing", label: "Pricing" },
+  { to: "/ai-operations", label: "AI Ops" },
 ] as const;
 
 

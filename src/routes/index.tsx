@@ -12,6 +12,7 @@ import { NutritionEducation } from "@/components/NutritionEducation";
 import { AnswerBlocks, ANSWER_FAQ_DATA } from "@/components/AnswerBlocks";
 import { ComparisonTables } from "@/components/ComparisonTables";
 import { BetaSignupForm } from "@/components/BetaSignupForm";
+import { SocialProof } from "@/components/SocialProof";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -73,6 +74,10 @@ function Home() {
           <p className="mt-5 max-w-xl text-lg text-muted-foreground">
             NutriSight uses live camera AI, your personal health goal and meal memory to help you
             choose better — at cafés, supermarkets, on your phone and on future AI glasses.
+          </p>
+          <p className="mt-3 max-w-xl text-sm font-medium text-foreground/80">
+            An <span className="rounded bg-primary/15 px-1.5 py-0.5 text-primary">Education & Human Potential</span> product:
+            we teach people what food actually does to their body — at the moment of decision.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <button
@@ -254,12 +259,23 @@ function Home() {
         </div>
       </Section>
 
+      {/* SOCIAL PROOF */}
+      <SocialProof />
+
       {/* TECH */}
-      <Section eyebrow="Built with" title="Modern AI & cloud stack">
-        <div className="flex flex-wrap justify-center gap-2.5">
-          {["Gemini 2.5 Flash", "Lovable AI Gateway", "Lovable Cloud", "TanStack Start", "React 19", "TypeScript", "Tailwind v4", "Camera vision"].map((t) => (
-            <span key={t} className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium shadow-sm">{t}</span>
-          ))}
+      <Section eyebrow="Built with" title="Powered by Google Gemini">
+        <div className="mx-auto max-w-3xl rounded-3xl border border-border bg-card p-6 text-center text-sm leading-relaxed text-muted-foreground md:p-8">
+          <p>
+            <strong className="text-foreground">Google Gemini 2.5 Flash & 2.5 Pro</strong> — multimodal vision and
+            reasoning for every scan, menu read, recipe parse and comparison.
+          </p>
+          <p className="mt-3">
+            <strong className="text-foreground">Google Cloud</strong>-powered AI pipeline via the Lovable AI Gateway,
+            with managed Postgres &amp; Auth for secure meal memory and storage for food images.
+          </p>
+          <p className="mt-4 text-xs">
+            See every agent and live counter on the <Link to="/ai-operations" className="text-primary underline">AI Operations</Link> page.
+          </p>
         </div>
       </Section>
 

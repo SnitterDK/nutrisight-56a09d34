@@ -6,6 +6,7 @@ import { describeMeal, type DescribeOutput } from "@/lib/scan.functions";
 import { saveMeal } from "@/lib/meals.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { Section } from "@/components/Section";
+import { GeminiBadge } from "@/components/GeminiBadge";
 
 export const Route = createFileRoute("/describe")({
   head: () => ({
@@ -146,7 +147,10 @@ function DescribePage() {
       {result && (
         <Section eyebrow="Result" title={result.food_name}>
           <div className="rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/5 via-card to-brand-blue/5 p-6 md:p-8">
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{result.confidence} confidence — estimates only</p>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{result.confidence} confidence — estimates only</p>
+              <GeminiBadge meta={result._meta} />
+            </div>
             <dl className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6">
               {[
                 ["Calories", `${Math.round(result.calories_kcal)} kcal`],
