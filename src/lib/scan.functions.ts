@@ -116,7 +116,7 @@ Respond ONLY with strict JSON:
   "notes": string
 }`;
 
-    const parsed = await callAI({
+    const { data: parsed, meta } = await callAI({
       model: data.mode === "recipe" || data.mode === "menu" ? "google/gemini-2.5-pro" : "google/gemini-2.5-flash",
       messages: [
         { role: "system", content: systemPrompt },
@@ -178,7 +178,7 @@ Return strict JSON only:
 
 Recommendation: 1-2 sentences explaining the better choice for the user's goal. Calm, supportive, never fear-based. Estimates only.`;
 
-    const parsed = await callAI({
+    const { data: parsed, meta } = await callAI({
       model: "google/gemini-2.5-pro",
       messages: [
         { role: "system", content: systemPrompt },
@@ -250,7 +250,7 @@ Return strict JSON only:
 
 Estimates only — never medical advice. Tone: calm, supportive.`;
 
-    const parsed = await callAI({
+    const { data: parsed, meta } = await callAI({
       model: "google/gemini-2.5-flash",
       messages: [
         { role: "system", content: systemPrompt },
