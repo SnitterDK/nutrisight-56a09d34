@@ -334,11 +334,12 @@ function ScanResultView({ result }: { result: ScanResult }) {
   return (
     <div className="space-y-4">
       <div className="flex items-start justify-between gap-3">
-        <div>
+        <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             {result.confidence ? `${result.confidence} confidence` : "Detected"}
           </p>
           <h4 className="text-xl font-bold">{result.food_name ?? "Unknown"}</h4>
+          <GeminiBadge meta={result._meta} className="mt-2" />
         </div>
         {score != null && (
           <div className={`flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl ring-2 ${ringClass}`}>
