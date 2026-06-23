@@ -6,6 +6,7 @@ import { describeMeal, type DescribeOutput } from "@/lib/scan.functions";
 import { saveMeal } from "@/lib/meals.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { Section } from "@/components/Section";
+import { GeminiBadge } from "@/components/GeminiBadge";
 
 export const Route = createFileRoute("/describe")({
   head: () => ({
