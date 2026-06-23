@@ -75,6 +75,10 @@ function Home() {
             NutriSight uses live camera AI, your personal health goal and meal memory to help you
             choose better — at cafés, supermarkets, on your phone and on future AI glasses.
           </p>
+          <p className="mt-3 max-w-xl text-sm font-medium text-foreground/80">
+            An <span className="rounded bg-primary/15 px-1.5 py-0.5 text-primary">Education & Human Potential</span> product:
+            we teach people what food actually does to their body — at the moment of decision.
+          </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <button
               onClick={() => setScannerOpen(true)}
