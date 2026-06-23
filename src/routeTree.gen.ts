@@ -20,6 +20,7 @@ import { Route as DemoRouteImport } from './routes/demo'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/app'
+import { Route as AiOperationsRouteImport } from './routes/ai-operations'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
@@ -84,6 +85,11 @@ const AppRoute = AppRouteImport.update({
   path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiOperationsRoute = AiOperationsRouteImport.update({
+  id: '/ai-operations',
+  path: '/ai-operations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
+  '/ai-operations': typeof AiOperationsRoute
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/compare': typeof CompareRoute
@@ -147,6 +154,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ai-operations': typeof AiOperationsRoute
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/compare': typeof CompareRoute
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
+  '/ai-operations': typeof AiOperationsRoute
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/compare': typeof CompareRoute
@@ -191,6 +200,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
+    | '/ai-operations'
     | '/app'
     | '/auth'
     | '/compare'
@@ -210,6 +220,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/ai-operations'
     | '/app'
     | '/auth'
     | '/compare'
@@ -231,6 +242,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/about'
     | '/admin'
+    | '/ai-operations'
     | '/app'
     | '/auth'
     | '/compare'
@@ -253,6 +265,7 @@ export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AiOperationsRoute: typeof AiOperationsRoute
   AppRoute: typeof AppRoute
   AuthRoute: typeof AuthRoute
   CompareRoute: typeof CompareRoute
@@ -345,6 +358,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai-operations': {
+      id: '/ai-operations'
+      path: '/ai-operations'
+      fullPath: '/ai-operations'
+      preLoaderRoute: typeof AiOperationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin': {
       id: '/admin'
       path: '/admin'
@@ -435,6 +455,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
+  AiOperationsRoute: AiOperationsRoute,
   AppRoute: AppRoute,
   AuthRoute: AuthRoute,
   CompareRoute: CompareRoute,
