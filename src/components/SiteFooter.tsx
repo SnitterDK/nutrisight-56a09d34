@@ -34,6 +34,7 @@ export function SiteFooter() {
           <h4 className="text-sm font-semibold">Company</h4>
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
             <li><Link to="/about" className="hover:text-foreground">About</Link></li>
+            <li><Link to="/manifesto" className="hover:text-foreground">ExO Manifesto</Link></li>
             <li><Link to="/ai-operations" className="hover:text-foreground">AI Operations</Link></li>
             <li><Link to="/privacy" className="hover:text-foreground">Privacy</Link></li>
             <li><Link to="/terms" className="hover:text-foreground">Terms</Link></li>
