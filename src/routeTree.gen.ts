@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as GlassesRouteImport } from './routes/glasses'
@@ -31,6 +32,11 @@ import { Route as AuthenticatedHistoryRouteImport } from './routes/_authenticate
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LearnRoute = LearnRouteImport.update({
@@ -131,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/glasses': typeof GlassesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/learn': typeof LearnRoute
+  '/pricing': typeof PricingRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/history': typeof AuthenticatedHistoryRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/glasses': typeof GlassesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/learn': typeof LearnRoute
+  '/pricing': typeof PricingRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/history': typeof AuthenticatedHistoryRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -170,6 +178,7 @@ export interface FileRoutesById {
   '/glasses': typeof GlassesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/learn': typeof LearnRoute
+  '/pricing': typeof PricingRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/history': typeof AuthenticatedHistoryRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
@@ -191,6 +200,7 @@ export interface FileRouteTypes {
     | '/glasses'
     | '/how-it-works'
     | '/learn'
+    | '/pricing'
     | '/sitemap.xml'
     | '/history'
     | '/profile'
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
     | '/glasses'
     | '/how-it-works'
     | '/learn'
+    | '/pricing'
     | '/sitemap.xml'
     | '/history'
     | '/profile'
@@ -229,6 +240,7 @@ export interface FileRouteTypes {
     | '/glasses'
     | '/how-it-works'
     | '/learn'
+    | '/pricing'
     | '/sitemap.xml'
     | '/_authenticated/history'
     | '/_authenticated/profile'
@@ -250,6 +262,7 @@ export interface RootRouteChildren {
   GlassesRoute: typeof GlassesRoute
   HowItWorksRoute: typeof HowItWorksRoute
   LearnRoute: typeof LearnRoute
+  PricingRoute: typeof PricingRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
@@ -260,6 +273,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/learn': {
@@ -424,6 +444,7 @@ const rootRouteChildren: RootRouteChildren = {
   GlassesRoute: GlassesRoute,
   HowItWorksRoute: HowItWorksRoute,
   LearnRoute: LearnRoute,
+  PricingRoute: PricingRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
