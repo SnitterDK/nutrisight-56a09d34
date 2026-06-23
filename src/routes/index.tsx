@@ -259,12 +259,23 @@ function Home() {
         </div>
       </Section>
 
+      {/* SOCIAL PROOF */}
+      <SocialProof />
+
       {/* TECH */}
-      <Section eyebrow="Built with" title="Modern AI & cloud stack">
-        <div className="flex flex-wrap justify-center gap-2.5">
-          {["Gemini 2.5 Flash", "Lovable AI Gateway", "Lovable Cloud", "TanStack Start", "React 19", "TypeScript", "Tailwind v4", "Camera vision"].map((t) => (
-            <span key={t} className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium shadow-sm">{t}</span>
-          ))}
+      <Section eyebrow="Built with" title="Powered by Google Gemini">
+        <div className="mx-auto max-w-3xl rounded-3xl border border-border bg-card p-6 text-center text-sm leading-relaxed text-muted-foreground md:p-8">
+          <p>
+            <strong className="text-foreground">Google Gemini 2.5 Flash & 2.5 Pro</strong> — multimodal vision and
+            reasoning for every scan, menu read, recipe parse and comparison.
+          </p>
+          <p className="mt-3">
+            <strong className="text-foreground">Google Cloud</strong>-powered AI pipeline via the Lovable AI Gateway,
+            with managed Postgres &amp; Auth for secure meal memory and storage for food images.
+          </p>
+          <p className="mt-4 text-xs">
+            See every agent and live counter on the <Link to="/ai-operations" className="text-primary underline">AI Operations</Link> page.
+          </p>
         </div>
       </Section>
 
