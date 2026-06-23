@@ -172,6 +172,7 @@ function ResultBlock({ result, imgA, imgB }: { result: CompareOutput; imgA: stri
             </div>
             <h3 className="mt-2 text-xl font-bold md:text-2xl">{winnerName}</h3>
             <p className="mt-1 text-sm text-muted-foreground md:text-base">{result.recommendation}</p>
+            <GeminiBadge meta={result._meta} className="mt-3" />
           </div>
         </div>
       </div>
