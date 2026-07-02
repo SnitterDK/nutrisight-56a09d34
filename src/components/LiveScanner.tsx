@@ -179,8 +179,8 @@ export function LiveScanner({ goalLabel, autoOpen = false, onClose }: { goalLabe
             </button>
           )}
           {onClose && (
-            <button onClick={() => { stopCamera(); onClose(); }} className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card hover:bg-muted" title="Close">
-              <X className="h-4 w-4" />
+            <button onClick={() => { stopCamera(); onClose(); }} aria-label="Close scanner" title="Close" className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card hover:bg-muted">
+              <X className="h-4 w-4" aria-hidden="true" />
             </button>
           )}
         </div>

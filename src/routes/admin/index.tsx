@@ -5,6 +5,9 @@ import { Loader2, Users, Inbox, ScanLine, Sparkles, Activity, MessageSquare, Tar
 import { getAdminKpis } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/admin/")({
+  head: () => ({
+    meta: [{ title: "Admin dashboard — NutriSight" }],
+  }),
   component: AdminDashboard,
 });
 

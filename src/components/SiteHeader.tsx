@@ -27,13 +27,13 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
       <div className="container-page flex h-16 items-center justify-between gap-6">
-        <Link to="/" className="flex items-center gap-2 font-display text-lg font-bold">
+        <Link to="/" aria-label="NutriSight home" className="flex items-center gap-2 font-display text-lg font-bold">
           <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-            <Leaf className="h-5 w-5" />
+            <Leaf className="h-5 w-5" aria-hidden="true" />
           </span>
           <span>NutriSight</span>
         </Link>
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
           {navItems.map((item) => (
             <Link
               key={item.to}
@@ -50,14 +50,19 @@ export function SiteHeader() {
             <>
               {isAdmin && (
                 <Link to="/admin" className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20">
-                  <ShieldCheck className="h-3.5 w-3.5" /> Admin
+                  <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" /> Admin
                 </Link>
               )}
               <Link to="/profile" className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:bg-muted">
-                <UserIcon className="h-3.5 w-3.5" /> Profile
+                <UserIcon className="h-3.5 w-3.5" aria-hidden="true" /> Profile
               </Link>
-              <button onClick={signOut} className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground" title="Sign out">
-                <LogOut className="h-3.5 w-3.5" />
+              <button
+                onClick={signOut}
+                aria-label="Sign out"
+                title="Sign out"
+                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground"
+              >
+                <LogOut className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
             </>
           ) : (
@@ -67,7 +72,7 @@ export function SiteHeader() {
           )}
         </div>
       </div>
-      <nav className="container-page flex gap-1 overflow-x-auto pb-2 md:hidden">
+      <nav aria-label="Primary mobile" className="container-page flex gap-1 overflow-x-auto pb-2 md:hidden">
         {navItems.map((item) => (
           <Link
             key={item.to}
@@ -78,7 +83,25 @@ export function SiteHeader() {
             {item.label}
           </Link>
         ))}
-        {!user && (
+        {user ? (
+          <>
+            {isAdmin && (
+              <Link to="/admin" className="whitespace-nowrap rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary">
+                Admin
+              </Link>
+            )}
+            <Link to="/profile" className="whitespace-nowrap rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold">
+              Profile
+            </Link>
+            <button
+              onClick={signOut}
+              aria-label="Sign out"
+              className="whitespace-nowrap rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground"
+            >
+              Sign out
+            </button>
+          </>
+        ) : (
           <Link to="/auth" className="whitespace-nowrap rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground">
             Sign in
           </Link>

@@ -53,12 +53,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { name: "theme-color", content: "#0f172a" },
       { title: "NutriSight — Understand food before you eat it" },
       { name: "description", content: "NutriSight uses AI vision, personal goals and meal memory to help people choose healthier food in real time — from photos, menus and future AI glasses." },
       { property: "og:title", content: "NutriSight — Understand food before you eat it" },
       { property: "og:description", content: "NutriSight uses AI vision, personal goals and meal memory to help people choose healthier food in real time — from photos, menus and future AI glasses." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "NutriSight" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "NutriSight — Understand food before you eat it" },
       { name: "twitter:description", content: "NutriSight uses AI vision, personal goals and meal memory to help people choose healthier food in real time — from photos, menus and future AI glasses." },
