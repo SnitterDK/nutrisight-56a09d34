@@ -6,6 +6,9 @@ import { Loader2, Download, Search } from "lucide-react";
 import { listBetaSignups, updateBetaSignup } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/admin/beta")({
+  head: () => ({
+    meta: [{ title: "Beta signups — Admin — NutriSight" }],
+  }),
   component: BetaSignupsPage,
 });
 
