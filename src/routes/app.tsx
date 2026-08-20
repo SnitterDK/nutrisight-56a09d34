@@ -27,6 +27,7 @@ const GOALS = [
   { id: "sugar", label: "Reduce sugar", icon: CandyOff },
   { id: "weight", label: "Lose weight", icon: Scale },
   { id: "glucose", label: "Stable blood sugar", icon: Activity },
+  { id: "keto", label: "Ketogenic / low-carb", icon: Leaf },
   { id: "protein", label: "More protein", icon: Beef },
   { id: "fiber", label: "More fiber", icon: Wheat },
   { id: "salt", label: "Reduce salt", icon: Droplets },
