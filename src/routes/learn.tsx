@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import {
   GraduationCap, Trophy, Check, Sparkles, Brain, Zap, Heart,
-  Droplets, Flame, Wheat, Beef, Activity,
+  Droplets, Flame, Wheat, Beef, Activity, Leaf,
 } from "lucide-react";
 import { Section } from "@/components/Section";
 import { useAuth } from "@/hooks/useAuth";
