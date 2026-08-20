@@ -9,6 +9,7 @@ import {
 import { Section } from "@/components/Section";
 import { LiveScanner } from "@/components/LiveScanner";
 import { NutritionEducation } from "@/components/NutritionEducation";
+import { GlucoseCancerFocus, GLUCOSE_CANCER_FAQ } from "@/components/GlucoseCancerFocus";
 import { AnswerBlocks, ANSWER_FAQ_DATA } from "@/components/AnswerBlocks";
 import { ComparisonTables } from "@/components/ComparisonTables";
 import { BetaSignupForm } from "@/components/BetaSignupForm";
@@ -30,7 +31,7 @@ export const Route = createFileRoute("/")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          mainEntity: ANSWER_FAQ_DATA.map(({ q, a }) => ({
+          mainEntity: [...ANSWER_FAQ_DATA, ...GLUCOSE_CANCER_FAQ].map(({ q, a }) => ({
             "@type": "Question",
             name: q,
             acceptedAnswer: { "@type": "Answer", text: a },
@@ -151,6 +152,8 @@ function Home() {
           </div>
         </div>
       </section>
+
+      <GlucoseCancerFocus />
 
       {/* WHY NUTRISIGHT */}
       <Section
