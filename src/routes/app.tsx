@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useState } from "react";
 import {
-  Scale, CandyOff, Activity, Beef, Wheat, Droplets, Flame, Salad, Sparkles, Check,
+  Scale, CandyOff, Activity, Beef, Wheat, Droplets, Flame, Salad, Sparkles, Check, Leaf,
   TrendingUp, Camera, MessageSquare, ScrollText, HelpCircle, Plus, Lightbulb,
 } from "lucide-react";
 import { Section } from "@/components/Section";

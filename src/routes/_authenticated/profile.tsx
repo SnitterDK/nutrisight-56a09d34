@@ -12,7 +12,7 @@ export const Route = createFileRoute("/_authenticated/profile")({
 });
 
 const GOALS = [
-  ["sugar", "Reduce sugar"], ["weight", "Lose weight"], ["glucose", "Stable blood sugar"],
+  ["sugar", "Reduce sugar"], ["weight", "Lose weight"], ["glucose", "Stable blood sugar"], ["keto", "Ketogenic / low-carb"],
   ["protein", "More protein"], ["fiber", "More fiber"], ["salt", "Reduce salt"],
   ["calories", "Reduce calories"], ["processed", "Less ultra-processed"], ["overall", "Healthier overall"],
 ] as const;
