@@ -91,7 +91,7 @@ function DescribePage() {
 
       <Section eyebrow="Goal" title="Pick your focus">
         <div className="flex flex-wrap gap-2">
-          {["Healthier overall", "Lose weight", "Reduce sugar", "More protein", "Stable blood sugar", "More fiber"].map((g) => (
+          {["Healthier overall", "Lose weight", "Reduce sugar", "More protein", "Stable blood sugar", "More fiber", "Ketogenic / low-carb"].map((g) => (
             <button key={g} onClick={() => setGoal(g)} className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${goal === g ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:bg-muted"}`}>
               {g}
             </button>

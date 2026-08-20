@@ -103,6 +103,8 @@ export const analyzeFood = createServerFn({ method: "POST" })
 
 ${modeInstructions[data.mode]}
 
+If the user's goal mentions ketogenic or low-carb: score mainly on net carbs (carbs minus fiber) and added sugar, mention approximate net carbs in "notes", and suggest a lower-carb swap. Never claim a diet treats, prevents or cures any disease; if the user hints at illness, gently suggest talking to their doctor.
+
 Respond ONLY with strict JSON:
 {
   "food_name": string,

@@ -188,6 +188,67 @@ export function NutritionEducation() {
         </div>
       </Section>
 
+      {/* SECTION 3b: Low-carb / ketogenic focus */}
+      <Section
+        eyebrow="Low-carb & keto"
+        title="A ketogenic focus — explained honestly"
+        subtitle="When carbohydrate intake stays very low, the liver makes ketones from fat instead of relying on glucose. NutriSight now includes a Ketogenic / low-carb focus goal that scores every scan on net carbs and sugar load."
+      >
+        <div className="grid gap-5 md:grid-cols-2">
+          <div className="rounded-3xl border border-border bg-card p-7 shadow-sm">
+            <div className="flex items-center gap-3">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-success/15 text-success-foreground">
+                <Leaf className="h-5 w-5" />
+              </span>
+              <h3 className="text-lg font-semibold">What research supports</h3>
+            </div>
+            <ul className="mt-4 space-y-3">
+              {[
+                "Established medical therapy for drug-resistant epilepsy",
+                "Improved blood-sugar control and triglycerides for many with type 2 diabetes or insulin resistance",
+                "Lower appetite and fewer glucose spikes for many people",
+                "Researchers are studying ketogenic diets and fasting alongside standard cancer treatment — this is early, experimental science",
+              ].map((t) => (
+                <li key={t} className="flex items-start gap-3 text-sm text-muted-foreground">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="rounded-3xl border border-border bg-card p-7 shadow-sm">
+            <div className="flex items-center gap-3">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-warning/15 text-warning-foreground">
+                <ArrowDown className="h-5 w-5" />
+              </span>
+              <h3 className="text-lg font-semibold">What it is not</h3>
+            </div>
+            <ul className="mt-4 space-y-3">
+              {[
+                "A diet is not a treatment for cancer and cannot replace oncology care",
+                "Unintended weight loss during illness or treatment can be harmful",
+                "Not suitable for everyone — pregnancy, type 1 diabetes, eating-disorder history, kidney or liver disease",
+                "A moderate low-carb pattern gives most of the blood-sugar benefit with less restriction",
+              ].map((t) => (
+                <li key={t} className="flex items-start gap-3 text-sm text-muted-foreground">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-warning" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mx-auto mt-6 flex max-w-2xl items-start gap-3 rounded-2xl border border-border bg-surface p-4">
+          <Activity className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+          <p className="text-xs text-muted-foreground">
+            Educational information only. Always discuss diet changes with a qualified clinician — especially
+            during illness, cancer treatment, pregnancy or when taking medication.
+          </p>
+        </div>
+      </Section>
+
       {/* SECTION 4: Source / inspiration */}
       <section className="container-page py-10">
         <div className="mx-auto max-w-3xl rounded-2xl border border-border bg-surface p-6 md:p-8">

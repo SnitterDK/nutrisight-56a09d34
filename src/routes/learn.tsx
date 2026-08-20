@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import {
   GraduationCap, Trophy, Check, Sparkles, Brain, Zap, Heart,
-  Droplets, Flame, Wheat, Beef, Activity,
+  Droplets, Flame, Wheat, Beef, Activity, Leaf,
 } from "lucide-react";
 import { Section } from "@/components/Section";
 import { useAuth } from "@/hooks/useAuth";
@@ -152,6 +152,22 @@ const LESSONS: Lesson[] = [
       "Skip a day? No drama. Skip two? Reset gently.",
     ],
     takeaway: "Open NutriSight before one meal a day. That's the whole game.",
+  },
+  {
+    key: "keto-lowcarb",
+    eyebrow: "Low-carb & keto",
+    title: "Ketogenic and low-carb eating — what the science does and doesn't say",
+    icon: Leaf,
+    xp: 25,
+    why: "Many people ask whether cutting carbs changes how the body fuels itself. Here is the calm, evidence-aware version.",
+    body: [
+      "On a normal carb intake, glucose is your body's default fuel. When carbohydrate intake stays very low for a while, the liver produces ketones from fat instead — this state is called nutritional ketosis.",
+      "Documented benefits in clinical research: ketogenic diets are an established medical therapy for drug-resistant epilepsy, and low-carb eating can improve blood-sugar control, triglycerides and appetite regulation for many people with type 2 diabetes or insulin resistance.",
+      "Cancer and metabolism: many tumour cells use a lot of glucose, which is why PET scans work. Researchers are studying whether ketogenic diets or fasting could support standard treatment. As of today this is experimental — evidence in humans is early and mixed, and diet is NOT a cancer treatment and cannot replace oncology care. Unintentional weight loss during cancer treatment can be harmful.",
+      "Practical reality: keto is restrictive, not required for health, and not suitable for everyone (pregnancy, eating-disorder history, type 1 diabetes, kidney or liver disease, certain medications). A moderate low-carb pattern gives most of the blood-sugar benefit with far less friction.",
+      "If you follow low-carb: prioritise protein, non-starchy vegetables, healthy fats and fiber — and watch for rice, bread, pasta, potatoes and liquid sugar, which raise glucose fastest.",
+    ],
+    takeaway: "Pick the 'Ketogenic / low-carb' goal and NutriSight will score every scan on net carbs and glucose impact. Educational only — always discuss diet changes with your doctor, especially during illness or cancer treatment.",
   },
 ];
 

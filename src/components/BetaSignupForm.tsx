@@ -6,6 +6,7 @@ const GOALS = [
   { value: "lose_weight", label: "Lose weight" },
   { value: "reduce_sugar", label: "Reduce sugar" },
   { value: "stabilize_glucose", label: "Stabilize blood sugar" },
+  { value: "ketogenic_lowcarb", label: "Ketogenic / low-carb" },
   { value: "more_protein", label: "Eat more protein" },
   { value: "more_fiber", label: "Eat more fiber" },
   { value: "reduce_salt", label: "Reduce salt" },
